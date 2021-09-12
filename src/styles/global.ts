@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
   :root {
@@ -34,8 +34,6 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   p,
-  a,
-  strong,
   span,
   li,
   tr,
@@ -65,5 +63,20 @@ export const GlobalStyles = createGlobalStyle`
   &::-webkit-scrollbar-thumb {
     background: var(--primary);
     border-radius: 8px;
+  }
+`
+
+export const Container = styled.main`
+  width: 100%;
+  height: 100%;
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template:
+      'header header page page page page'
+      'header header page page page page'
+      'header header page page page page'
+      'header header page page page page';
+    grid-template-columns: 80px auto;
   }
 `
