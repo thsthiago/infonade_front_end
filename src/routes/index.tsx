@@ -7,7 +7,7 @@ import Consulta from '../pages/Consulta'
 
 const Routes = () => (
   <Switch>
-    <Route path="/" component={Home} />
+    <Route path="/" exact component={Home} />
     <Route path="/consulta" component={Consulta} />
   </Switch>
 )

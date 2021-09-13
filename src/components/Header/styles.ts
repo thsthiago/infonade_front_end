@@ -57,6 +57,8 @@ export const Container = styled.header`
     transition: width 0.3s;
     overflow-y: hidden;
     display: block;
+    filter: none;
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.25);
 
     &:hover {
       width: 180px;

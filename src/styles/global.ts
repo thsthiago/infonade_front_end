@@ -42,7 +42,9 @@ export const GlobalStyles = createGlobalStyle`
   span,
   li,
   tr,
-  td {
+  td,
+  input,
+  button {
     font-family: 'Roboto', sans-serif;
   }
 
@@ -82,6 +84,6 @@ export const Container = styled.main`
       'header header page page page page'
       'header header page page page page'
       'header header page page page page';
-    grid-template-columns: 80px auto;
+    grid-template-columns: 80px calc(100% - 80px);
   }
 `
