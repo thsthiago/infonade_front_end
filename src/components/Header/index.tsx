@@ -15,9 +15,13 @@ export const Header = () => {
     setActiveNav(!activeNav)
   }
 
+  const handleDisabledNav = () => {
+    setActiveNav(false)
+  }
+
   return (
     <Container>
-      <Link to="/">
+      <Link to="/" onClick={handleDisabledNav}>
         <img src={LogoImg} alt="Coruja com chapéu" />
         <strong>Infonade</strong>
       </Link>
@@ -31,21 +35,21 @@ export const Header = () => {
           <ul>
             <li>
               <span></span>
-              <Link to="/">
+              <Link to="/" onClick={handleDisabledNav}>
                 <FaHome />
                 Home
               </Link>
             </li>
             <li>
               <span></span>
-              <Link to="/consulta">
+              <Link to="/consulta" onClick={handleDisabledNav}>
                 <AiOutlineFileSearch />
                 Consulta
               </Link>
             </li>
             <li>
               <span></span>
-              <Link to="/">
+              <Link to="/" onClick={handleDisabledNav}>
                 <FaCloudDownloadAlt />
                 Cadastro
               </Link>
