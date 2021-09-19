@@ -87,7 +87,10 @@ export const Container = styled.main`
   }
 
   section:nth-child(2) {
-    margin-top: 70px;
+    margin-top: 20px;
+    @media (min-width: 768px) {
+      margin-top: 70px;
+    }
   }
 
   section:nth-child(2),
@@ -105,7 +108,18 @@ export const Container = styled.main`
     > div {
       width: 100%;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
+    }
+
+    @media (min-width: 768px) {
+      &:nth-child(2) {
+        margin-top: 20px;
+      }
+
+      > div {
+        flex-wrap: nowrap;
+      }
     }
   }
 `
