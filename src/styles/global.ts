@@ -54,6 +54,7 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     background: var(--background);
+    /* background: black; */
   }
 
   button {
