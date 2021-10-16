@@ -22,11 +22,10 @@ const animationLink = keyframes`
 `
 
 export const Container = styled.header`
-  position: relative;
+  position: fixed;
   z-index: 1;
   width: 100%;
   padding: 10px 0;
-  grid-area: 'header';
   background: var(--primary);
   display: flex;
   justify-content: center;
@@ -193,6 +192,24 @@ export const NavMobile = styled.div<INavMobile>`
       }
     }
 
+    li:nth-of-type(4) {
+      left: ${(props) => (props.activeNav ? '0' : '100%')};
+      transition: left 0.8s;
+
+      span {
+        ${(props) =>
+          props.pathname === '/gerenciamento' &&
+          'background-color: var(--blue-200);'}
+      }
+
+      a {
+        color: ${(props) =>
+          props.pathname === '/gerenciamento'
+            ? 'var(--blue-200)'
+            : 'var(--blue-100)'};
+      }
+    }
+
     li {
       width: 100%;
       height: 47px;
@@ -275,6 +292,21 @@ export const NavDesktop = styled.ul<INavDesktop>`
       a {
         color: ${(props) =>
           props.pathname === '/cadastro'
+            ? 'var(--blue-200)'
+            : 'var(--blue-100)'};
+      }
+    }
+
+    li:nth-of-type(4) {
+      span {
+        ${(props) =>
+          props.pathname === '/gerenciamento' &&
+          'background-color: var(--blue-200);'}
+      }
+
+      a {
+        color: ${(props) =>
+          props.pathname === '/gerenciamento'
             ? 'var(--blue-200)'
             : 'var(--blue-100)'};
       }

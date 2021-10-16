@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-
 import LogoImg from '../../assets/Logo.svg'
 import { FaCloudDownloadAlt, FaHome } from 'react-icons/fa'
 import { AiOutlineFileSearch } from 'react-icons/ai'
+import { MdManageAccounts } from 'react-icons/md'
 
 import { Link, useLocation } from 'react-router-dom'
 import { Container, NavDesktop, NavMobile } from './styles'
+import { useState } from 'react'
 
 export const Header = () => {
   const [activeNav, setActiveNav] = useState<boolean>(false)
@@ -49,9 +49,16 @@ export const Header = () => {
             </li>
             <li>
               <span></span>
-              <Link to="/" onClick={handleDisabledNav}>
+              <Link to="/cadastro" onClick={handleDisabledNav}>
                 <FaCloudDownloadAlt />
                 Cadastro
+              </Link>
+            </li>
+            <li>
+              <span></span>
+              <Link to="/gerenciamento" onClick={handleDisabledNav}>
+                <MdManageAccounts />
+                Gerenciamento
               </Link>
             </li>
           </ul>
@@ -74,9 +81,16 @@ export const Header = () => {
           </li>
           <li>
             <span></span>
-            <Link to="/">
+            <Link to="/cadastro">
               <FaCloudDownloadAlt />
               <strong>Cadastro</strong>
+            </Link>
+          </li>
+          <li>
+            <span></span>
+            <Link to="/gerenciamento">
+              <MdManageAccounts />
+              <strong>Gerenciamento</strong>
             </Link>
           </li>
         </NavDesktop>

@@ -39,6 +39,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   p,
+  a,
   span,
   li,
   tr,
@@ -79,12 +80,6 @@ export const Container = styled.main`
   height: 100%;
 
   @media (min-width: 768px) {
-    display: grid;
-    grid-template:
-      'header header page page page page'
-      'header header page page page page'
-      'header header page page page page'
-      'header header page page page page';
-    grid-template-columns: 80px calc(100% - 80px);
+    display: flex;
   }
 `

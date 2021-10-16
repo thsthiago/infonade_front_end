@@ -4,7 +4,12 @@ import BackgroundHome from '../../assets/backgroundHome.svg'
 export const Container = styled.main`
   width: 100%;
   height: 100%;
-  grid-area: 'page';
+  padding-top: 70px;
+
+  @media (min-width: 768px) {
+    padding-top: 0px;
+    padding-left: 80px;
+  }
 
   section:first-child {
     width: 100%;
@@ -16,7 +21,6 @@ export const Container = styled.main`
     background-size: contain;
     justify-content: space-between;
     padding: 2%;
-    margin: 0 auto;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -47,6 +51,7 @@ export const Container = styled.main`
       flex-direction: row;
       align-items: initial;
       max-height: 400px;
+      margin-bottom: 60px;
 
       > div {
         width: 60%;

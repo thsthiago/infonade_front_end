@@ -1,8 +1,7 @@
-import React from 'react'
 import { Container } from './styles'
 
 const Consulta = () => {
-  return <Container>Consulta</Container>
+  return <Container></Container>
 }
 
 export default Consulta

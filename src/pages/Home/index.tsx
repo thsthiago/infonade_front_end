@@ -1,5 +1,3 @@
-import React from 'react'
-
 import PlanetGif from '../../assets/planet.gif'
 import { CardTemplate } from '../../components/CardTemplate'
 import { InputSearch } from '../../components/InputSearch'
