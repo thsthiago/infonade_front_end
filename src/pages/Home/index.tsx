@@ -1,6 +1,7 @@
+import { useState } from 'react'
 import PlanetGif from '../../assets/planet.gif'
 import { CardTemplate } from '../../components/CardTemplate'
-import { InputSearch } from '../../components/InputSearch'
+import { InputSearch } from './components/InputSearch'
 import { Container } from './styles'
 
 type cursoDataProps = {
@@ -55,14 +56,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section>
-        <h1>Gabaritos</h1>
-        <div>
-          {data.map((data) => (
-            <CardTemplate key={data.id} {...data} />
-          ))}
-        </div>
-      </section>
+      <section></section>
     </Container>
   )
 }

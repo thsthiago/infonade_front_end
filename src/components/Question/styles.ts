@@ -4,14 +4,15 @@ export const Container = styled.div`
   width: 100%;
   max-width: 750px;
   margin: 30px auto;
-  padding: 15px 20px;
   background: #ffffff;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
 
   a {
+    display: block;
     width: 100%;
     height: 100%;
+    padding: 15px 20px;
 
     > div:nth-of-type(1) {
       display: flex;

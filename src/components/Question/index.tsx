@@ -1,14 +1,6 @@
 import { Link } from 'react-router-dom'
+import { IQuestionDescription } from '../../interfaces/IQuestion'
 import { Container } from './styles'
-
-interface IQuestionProps {
-  curso: string
-  disciplinas: string[]
-  enunciado: string
-  numeroQuestao: number
-  edicao: number
-  id: number
-}
 
 export const Question = ({
   curso,
@@ -17,7 +9,7 @@ export const Question = ({
   enunciado,
   id,
   numeroQuestao
-}: IQuestionProps) => {
+}: IQuestionDescription) => {
   return (
     <Container>
       <Link to="/">

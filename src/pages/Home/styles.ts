@@ -33,7 +33,7 @@ export const Container = styled.main`
         font-size: clamp(1.4rem, 4vw, 50px);
         color: var(--text);
         padding: 5% 0 0 10%;
-        font-weight: 500;
+        font-weight: lighter;
 
         span {
           color: var(--blue-200);
@@ -60,10 +60,12 @@ export const Container = styled.main`
           font-size: clamp(1.4rem, 4vw, 50px);
           color: var(--text);
           padding: 5% 0 0 5%;
-          font-weight: 500;
+          font-weight: lighter;
 
           span {
             color: var(--blue-200);
+            font-weight: lighter;
+            font-family: 'Oswald', sans-serif;
           }
         }
       }

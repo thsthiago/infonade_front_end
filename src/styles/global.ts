@@ -9,6 +9,7 @@ export const GlobalStyles = createGlobalStyle`
     --blue-200: #8FE3F9;
     --blue-100: #B2EBF9;
     --text: #F2F2F2;
+    --delete-btn: #E35151;
   }
 
   * {
