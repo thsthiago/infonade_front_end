@@ -8,13 +8,13 @@ import AppProvider from './hooks'
 
 const App = () => (
   <Container>
-    <AppProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AppProvider>
         <Header />
         <Routes />
-      </BrowserRouter>
+      </AppProvider>
       <GlobalStyles />
-    </AppProvider>
+    </BrowserRouter>
   </Container>
 )
 
