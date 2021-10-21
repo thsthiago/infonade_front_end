@@ -14,7 +14,7 @@ const colors: any = {
 export const Container = styled.button<IContainerProps>`
   background: ${(props) => colors[props.color]};
   color: var(--text);
-  padding: 16px 20px;
+  padding: 13px 20px;
   height: 100%;
   border-radius: 4px;
   transition: background 0.4s;

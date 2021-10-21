@@ -46,8 +46,10 @@ export const GlobalStyles = createGlobalStyle`
   tr,
   td,
   input,
-  button {
+  button,
+  strong {
     font-family: 'Roboto', sans-serif;
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
   }
 
   a {

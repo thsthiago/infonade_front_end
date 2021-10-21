@@ -1,19 +1,14 @@
-import { ReactNode, useCallback } from 'react'
+import { ButtonHTMLAttributes, ReactNode } from 'react'
 import { Container } from './styles'
 
-interface IButtonProps {
-  fn(): void
+interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
   color: 'primary' | 'secondary' | 'delete'
 }
 
-export const Button = ({ fn, children, color }: IButtonProps) => {
-  const handleClick = useCallback(() => {
-    fn()
-  }, [])
-
+export const Button = ({ children, color, ...rest }: IButtonProps) => {
   return (
-    <Container onClick={handleClick} color={color}>
+    <Container {...rest} color={color}>
       {children}
     </Container>
   )
