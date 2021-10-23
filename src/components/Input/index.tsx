@@ -13,8 +13,6 @@ export const Input = ({ name, ...rest }: IInputProps) => {
   const { fieldName, defaultValue, error, registerField } = useField(name)
 
   useEffect(() => {
-    console.log(name)
-
     registerField({
       name: fieldName,
       ref: inputRef.current,

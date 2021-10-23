@@ -45,5 +45,23 @@ export const colourStyles: StylesConfig<true> = {
       },
       backgroundColor: isSelected ? '#25232F' : '#fff'
     }
-  }
+  },
+  multiValue: (styles) => {
+    return {
+      ...styles,
+      backgroundColor: '#413D51'
+    }
+  },
+  multiValueLabel: (styles) => ({
+    ...styles,
+    color: '#fff'
+  }),
+  multiValueRemove: (styles) => ({
+    ...styles,
+    color: '#fff',
+    ':hover': {
+      backgroundColor: '#25232F',
+      color: '#fff'
+    }
+  })
 }
