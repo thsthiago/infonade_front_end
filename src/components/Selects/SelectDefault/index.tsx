@@ -11,6 +11,7 @@ interface Props extends SelectProps<OptionProps> {
   messageNoOptions: string
   isLoadingMessage: string
   handleSearch: any
+  isMultiOptions?: boolean
 }
 
 export const SelectDefault = ({
@@ -18,6 +19,7 @@ export const SelectDefault = ({
   messageNoOptions,
   handleSearch,
   isLoadingMessage,
+  isMultiOptions,
   ...rest
 }: Props) => {
   const selectRef = useRef(null)
@@ -27,11 +29,18 @@ export const SelectDefault = ({
     registerField({
       name: fieldName,
       ref: selectRef.current,
-      getValue: (ref: any) => {
-        if (!ref.props.value) {
+      getValue: ({ props }) => {
+        if (props.isMulti) {
+          if (!props.value) {
+            return []
+          }
+          return props.value.map((option: any) => option.value)
+        }
+
+        if (!props.value) {
           return null
         }
-        return ref.props.value
+        return props.value
       }
     })
   }, [fieldName, registerField, rest.isMulti])
@@ -39,6 +48,7 @@ export const SelectDefault = ({
   return (
     <Container>
       <AsyncSelect
+        isMulti={isMultiOptions}
         cacheOptions
         defaultOptions
         loadOptions={handleSearch}

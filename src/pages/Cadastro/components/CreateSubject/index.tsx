@@ -8,7 +8,6 @@ import getValidationErrors from '../../../../utils/getValidationErrors'
 import { Button } from '../../../../components/Button'
 import { Container } from './styles'
 import { SelectCreate } from '../../../../components/Selects/SelectCreate'
-import { resolve } from 'dns'
 
 export const CreateSubject = () => {
   const formRef = useRef<FormHandles>(null)
