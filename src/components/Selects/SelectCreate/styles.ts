@@ -64,6 +64,10 @@ export const colourStyles = {
       backgroundColor: '#25232F',
       color: '#fff'
     }
+  }),
+  loadingIndicator: (styles: any) => ({
+    ...styles,
+    background: 'black'
   })
 }
 
@@ -94,6 +98,6 @@ export const Error = styled(Tooltip)`
   }
 
   @media (max-width: 900px) {
-    right: 40px;
+    right: 50px;
   }
 `

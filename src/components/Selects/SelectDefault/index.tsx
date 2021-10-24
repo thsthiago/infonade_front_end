@@ -1,14 +1,25 @@
 import { useField } from '@unform/core'
 import { useEffect, useRef } from 'react'
 import { FiAlertCircle } from 'react-icons/fi'
-import Select, { Props as SelectProps, OptionProps } from 'react-select'
+import { Props as SelectProps, OptionProps } from 'react-select'
+import AsyncSelect from 'react-select/async'
+import { Loading } from '../../Loading'
 import { colourStyles, Container, Error } from './styles'
 
 interface Props extends SelectProps<OptionProps> {
   name: string
+  messageNoOptions: string
+  isLoadingMessage: string
+  handleSearch: any
 }
 
-export const SelectDefault = ({ name, ...rest }: Props) => {
+export const SelectDefault = ({
+  name,
+  messageNoOptions,
+  handleSearch,
+  isLoadingMessage,
+  ...rest
+}: Props) => {
   const selectRef = useRef(null)
   const { fieldName, defaultValue, registerField, error } = useField(name)
 
@@ -27,11 +38,28 @@ export const SelectDefault = ({ name, ...rest }: Props) => {
 
   return (
     <Container>
-      <Select
+      <AsyncSelect
+        cacheOptions
+        defaultOptions
+        loadOptions={handleSearch}
         styles={colourStyles}
-        defaultValue={defaultValue}
         ref={selectRef}
-        classNamePrefix="react-select"
+        loadingMessage={() => isLoadingMessage}
+        noOptionsMessage={() => messageNoOptions}
+        components={{
+          LoadingIndicator: () => (
+            <Loading
+              size={17}
+              border={3}
+              styles={{
+                position: 'absolute',
+                top: '50%',
+                right: '50px',
+                transform: 'translateY(-65%)'
+              }}
+            />
+          )
+        }}
         {...rest}
       />
 

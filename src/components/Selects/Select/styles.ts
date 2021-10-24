@@ -1,12 +1,12 @@
 import { StylesConfig } from 'react-select'
 
-export const colourStyles: StylesConfig<true> = {
-  dropdownIndicator: (styles) => ({
+export const colourStyles = {
+  dropdownIndicator: (styles: any) => ({
     ...styles,
     color: '#25232F',
     outline: 'none'
   }),
-  container: (styles) => ({
+  container: (styles: any) => ({
     ...styles,
     border: '3px solid #25232F',
     ':hover': {
@@ -19,7 +19,7 @@ export const colourStyles: StylesConfig<true> = {
     borderRadius: '5px',
     fontFamily: "'Roboto', sans-serif"
   }),
-  control: (styles, { isFocused, isMulti, isRtl }) => ({
+  control: (styles: any) => ({
     ...styles,
     backgroundColor: 'white',
     border: 'none',
@@ -31,11 +31,11 @@ export const colourStyles: StylesConfig<true> = {
       boxShadow: 'none'
     }
   }),
-  menuList: (styles) => ({
+  menuList: (styles: any) => ({
     ...styles,
     padding: '0px'
   }),
-  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+  option: (styles: any, { isSelected }: { isSelected: any }) => {
     return {
       ...styles,
       padding: '10px 10px',
@@ -46,17 +46,17 @@ export const colourStyles: StylesConfig<true> = {
       backgroundColor: isSelected ? '#25232F' : '#fff'
     }
   },
-  multiValue: (styles) => {
+  multiValue: (styles: any) => {
     return {
       ...styles,
       backgroundColor: '#413D51'
     }
   },
-  multiValueLabel: (styles) => ({
+  multiValueLabel: (styles: any) => ({
     ...styles,
     color: '#fff'
   }),
-  multiValueRemove: (styles) => ({
+  multiValueRemove: (styles: any) => ({
     ...styles,
     color: '#fff',
     ':hover': {

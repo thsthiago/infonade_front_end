@@ -1,32 +1,21 @@
-import SelectComponent from 'react-select'
-import makeAnimated from 'react-select/animated'
+import SelectComponent, {
+  Props as SelectProps,
+  OptionProps
+} from 'react-select'
 import { colourStyles } from './styles'
 
-interface GroupBase<Option> {
-  readonly options: readonly Option[]
-  readonly label?: string
-}
-
-interface SelectProps<
-  Option = unknown,
-  IsMulti extends boolean = false,
-  Group extends GroupBase<Option> = GroupBase<Option>
-> {
-  Option?: any[]
-  IsMulti: boolean
-  Group?: GroupBase<Option>
+interface Props extends SelectProps<OptionProps> {
+  name: string
   options: any
-  placeholder: string
+  optionsMessage: string
 }
 
-const animatedComponents = makeAnimated()
-
-function Select<
-  Option,
-  IsMulti extends boolean = false,
-  Group extends GroupBase<Option> = GroupBase<Option>
->(props: SelectProps<Option, IsMulti, Group>) {
-  return <SelectComponent isMulti {...props} styles={colourStyles} />
+export const Select = ({ name, optionsMessage, ...rest }: Props) => {
+  return (
+    <SelectComponent
+      {...rest}
+      styles={colourStyles}
+      noOptionsMessage={() => optionsMessage}
+    />
+  )
 }
-
-export { Select }

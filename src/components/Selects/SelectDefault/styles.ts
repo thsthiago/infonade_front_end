@@ -77,6 +77,6 @@ export const Error = styled(Tooltip)`
   }
 
   @media (max-width: 900px) {
-    right: 40px;
+    right: 50px;
   }
 `

@@ -7,42 +7,88 @@ import { usePopup } from '../../../../hooks/usePopup'
 import getValidationErrors from '../../../../utils/getValidationErrors'
 import { Button } from '../../../../components/Button'
 import { Container } from './styles'
+import { SelectCreate } from '../../../../components/Selects/SelectCreate'
+import { resolve } from 'dns'
 
 export const CreateSubject = () => {
   const formRef = useRef<FormHandles>(null)
   const { addPopup } = usePopup()
-  const mockOption: any = [
+  const mockCursos: any = [
     {
-      value: 0,
+      value: 'Ciência da computação',
       label: 'Ciência da computação'
     },
     {
-      value: 1,
+      value: 'Análise e Desenvolvimento de Sistemas',
       label: 'Análise e Desenvolvimento de Sistemas'
     }
   ]
 
+  const mockDisciplinas: any = [
+    {
+      value: 'Engenharia de software',
+      label: 'Engenharia de software'
+    },
+    {
+      value: 'Programação web',
+      label: 'Programação web'
+    },
+    {
+      value: 'Cliente/Servidor',
+      label: 'Cliente/Servidor'
+    }
+  ]
+
+  const pesquisaTeste = (value: string): any => {
+    return mockDisciplinas.filter(
+      (disciplina: { label: string; value: number }) =>
+        disciplina.label.toLowerCase().includes(value.toLowerCase())
+    )
+  }
+
+  const handleSearch: any = async (value: string) =>
+    new Promise<any[]>((resolve) => {
+      setTimeout(() => {
+        resolve(pesquisaTeste(value))
+      }, 1000)
+    })
+
   const handleSubmit = useCallback(async (data) => {
+    console.log(data)
     try {
       formRef.current?.setErrors({})
       const schema = Yup.object().shape({
         curso: Yup.object()
           .shape({
             label: Yup.string(),
-            value: Yup.number()
+            value: Yup.string()
           })
-          .required('Curso obrigatório')
+          .strict()
+          .required('Curso obrigatório'),
+        disciplinas: Yup.array()
+          .min(1, 'Crie ou selecione pelo menos 1 disciplina')
+          .of(Yup.string().required())
       })
 
       await schema.validate(data, {
         abortEarly: false
       })
+
+      addPopup({
+        type: 'success',
+        title: 'Disciplina criada com successo.'
+      })
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err)
         formRef.current?.setErrors(errors)
-        console.log(errors)
       }
+
+      addPopup({
+        type: 'error',
+        title: 'Desculpe, ocorreu algum erro :(',
+        description: 'Entre em contato com o administrador.'
+      })
     }
   }, [])
 
@@ -51,9 +97,21 @@ export const CreateSubject = () => {
       <Form ref={formRef} onSubmit={handleSubmit}>
         <SelectDefault
           name="curso"
+          handleSearch={handleSearch}
+          isLoadingMessage="Procurando curso..."
           placeholder="Selecione uma curso"
-          options={mockOption}
+          messageNoOptions="Nenhum curso encontrado"
+          options={mockCursos}
         />
+
+        <SelectCreate
+          name="disciplinas"
+          handleSearch={handleSearch}
+          isLoadingMessage="Procurando disciplina..."
+          placeholder="Crie ou selecione uma disciplina"
+          options={mockDisciplinas}
+        />
+
         <Button color="primary" type="submit">
           Criar disciplina
         </Button>
