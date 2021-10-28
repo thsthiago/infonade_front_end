@@ -1,6 +1,10 @@
-import { useState } from 'react'
+import { FormHandles } from '@unform/core'
+import { useCallback, useRef, useState } from 'react'
 import { AiFillCloseSquare } from 'react-icons/ai'
-import { Select } from '../../../components/Selects/Select'
+import { Select } from '../../../../components/Selects/Select'
+import { SelectDefault } from '../../../../components/Selects/SelectDefault'
+import { usePopup } from '../../../../hooks/usePopup'
+
 import { Container } from './styles'
 
 const mockCursos = [
@@ -66,6 +70,8 @@ interface IFiltroProps {
 
 export const Filtro = ({ open, setIsOpen }: IFiltroProps) => {
   const [typeQuestion, setTypeQuestion] = useState<string>('')
+  const formRef = useRef<FormHandles>(null)
+  const { addPopup } = usePopup()
 
   const handleTypeQuestion = (value: string) => {
     setTypeQuestion((state) => {
@@ -73,8 +79,36 @@ export const Filtro = ({ open, setIsOpen }: IFiltroProps) => {
     })
   }
 
+  const pesquisaTeste = (value: string): any => {
+    return mockCursos.filter((disciplina: { label: string; value: number }) =>
+      disciplina.label.toLowerCase().includes(value.toLowerCase())
+    )
+  }
+
+  const handleSearch: any = async (value: string) =>
+    new Promise<any[]>((resolve) => {
+      setTimeout(() => {
+        resolve(pesquisaTeste(value))
+      }, 1000)
+    })
+
+  const handleSubmit = useCallback(async (data) => {
+    try {
+      console.log(data)
+    } catch (err) {
+      addPopup({
+        type: 'error',
+        title: 'Desculpe, ocorreu algum erro :(',
+        description: 'Entre em contato com o administrador.'
+      })
+    }
+  }, [])
+
   return open ? (
-    <Container typeQuestion={typeQuestion}>
+    <Container
+      ref={formRef}
+      onSubmit={handleSubmit}
+      typeQuestion={typeQuestion}>
       <div>
         <h1>Filtros</h1>
         <button onClick={() => setIsOpen(false)}>
@@ -84,18 +118,22 @@ export const Filtro = ({ open, setIsOpen }: IFiltroProps) => {
 
       <div>
         <strong>Cursos</strong>
-        <Select
-          name="cursos"
-          options={mockCursos}
-          optionsMessage="Curso não encontrado"
+        <SelectDefault
+          name="curso"
+          handleSearch={handleSearch}
+          isLoadingMessage="Procurando curso..."
+          placeholder="Selecione uma curso"
+          messageNoOptions="Nenhum curso encontrado"
         />
       </div>
       <div>
         <strong>Disciplina</strong>
-        <Select
-          name="disciplina"
-          options={mockDisciplina}
-          optionsMessage="Disciplina não encontrada"
+        <SelectDefault
+          name="disciplinas"
+          handleSearch={handleSearch}
+          isLoadingMessage="Procurando disciplina..."
+          placeholder="Selecione uma disciplina"
+          messageNoOptions="Nenhuma disciplina encontrada"
         />
       </div>
       <div>
@@ -117,10 +155,14 @@ export const Filtro = ({ open, setIsOpen }: IFiltroProps) => {
       <div>
         <strong>Tipo da questão</strong>
         <div>
-          <button onClick={() => handleTypeQuestion('dissertativa')}>
+          <button
+            onClick={() => handleTypeQuestion('dissertativa')}
+            type="button">
             Dissertativa
           </button>
-          <button onClick={() => handleTypeQuestion('alternativa')}>
+          <button
+            onClick={() => handleTypeQuestion('alternativa')}
+            type="button">
             Alternativa
           </button>
         </div>

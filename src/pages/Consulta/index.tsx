@@ -3,7 +3,7 @@ import { Button } from '../../components/Button'
 import { Question } from '../../components/Question'
 import { Search } from '../../components/Search'
 import { IQuestionDescription } from '../../interfaces/IQuestion'
-import { Filtro } from './Filtro'
+import { Filtro } from './components/Filtro'
 import { Container } from './styles'
 
 const mockQuestões: IQuestionDescription[] = [

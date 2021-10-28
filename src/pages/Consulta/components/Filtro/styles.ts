@@ -1,11 +1,12 @@
 import styled from 'styled-components'
 import { shade } from 'polished'
+import { Form } from '@unform/web'
 
 interface FiltroStyleProps {
   typeQuestion: string
 }
 
-export const Container = styled.div<FiltroStyleProps>`
+export const Container = styled(Form)<FiltroStyleProps>`
   position: absolute;
   top: 90px;
   width: 100%;
