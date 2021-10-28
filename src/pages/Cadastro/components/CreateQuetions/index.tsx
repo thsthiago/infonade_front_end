@@ -81,7 +81,7 @@ export const CreateQuestions = () => {
           handleSearch={handleSearch}
           isLoadingMessage="Procurando edicão..."
           messageNoOptions="Edição não encontrada"
-          placeholder="Selecione uma disciplina"
+          placeholder="Selecione uma edicão"
         />
         <h1>Questão(ões)</h1>
         <div>

@@ -7,8 +7,9 @@ import getValidationErrors from '../../../../../../utils/getValidationErrors'
 import { SelectDefault } from '../../../../../../components/Selects/SelectDefault'
 import { Select } from '../../../../../../components/Selects/Select'
 import { Input } from '../../../../../../components/Input'
-import { Editor, EditorState } from 'react-draft-wysiwyg'
+import { Editor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import { RadioQuestion } from './components/RadioQuestion'
 
 const mockDisciplinas: any = [
   {
@@ -101,13 +102,27 @@ export const FormQuestion = () => {
         wrapperClassName="demo-wrapper"
         editorClassName="demo-editor"
         toolbarClassName="toolbar-class"
+        placeholder="Enunciado"
+        toolbarStyle={{
+          background: '#413D51',
+          borderRadius: '5px',
+          padding: '10px'
+        }}
         editorStyle={{
           background: '#fff',
           height: 170,
           padding: '0 10px',
-          fontFamily: '"Roboto", open-sans'
+          fontFamily: '"Roboto", open-sans',
+          borderRadius: '5px',
+          boxShadow: '0px 0px 10px 3px rgba(0, 0, 0, 0.1)'
         }}
       />
+
+      <RadioQuestion name="teste" value="testesa" letra="a" />
+      <RadioQuestion name="teste" value="testesa" letra="c" />
+      <RadioQuestion name="teste" value="testesa" letra="b" />
+      <RadioQuestion name="teste" value="testesa" letra="c" />
+      <RadioQuestion name="teste" value="testesa" letra="d" />
     </Container>
   )
 }

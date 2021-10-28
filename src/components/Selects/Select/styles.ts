@@ -8,12 +8,12 @@ export const colourStyles = {
   }),
   container: (styles: any) => ({
     ...styles,
-    border: '3px solid #25232F',
+    border: '3px solid #413D51',
     ':hover': {
-      border: '3px solid #25232F'
+      border: '3px solid #413D51'
     },
     ':active': {
-      border: '3px solid #25232F'
+      border: '3px solid #413D51'
     },
     outline: 'none',
     borderRadius: '5px',
