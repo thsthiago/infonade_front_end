@@ -47,7 +47,29 @@ export const colourStyles: any = {
       },
       backgroundColor: isSelected ? '#25232F' : '#fff'
     }
-  }
+  },
+  multiValue: (styles: any) => {
+    return {
+      ...styles,
+      backgroundColor: '#413D51'
+    }
+  },
+  multiValueLabel: (styles: any) => ({
+    ...styles,
+    color: '#fff'
+  }),
+  multiValueRemove: (styles: any) => ({
+    ...styles,
+    color: '#fff',
+    ':hover': {
+      backgroundColor: '#25232F',
+      color: '#fff'
+    }
+  }),
+  loadingIndicator: (styles: any) => ({
+    ...styles,
+    background: 'black'
+  })
 }
 
 export const Container = styled.div`

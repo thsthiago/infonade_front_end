@@ -58,7 +58,7 @@ export const CreateSubject = () => {
       const schema = Yup.object().shape({
         curso: Yup.object()
           .shape({
-            label: Yup.string(),
+            label: Yup.string().required('Curso obrigatório'),
             value: Yup.string()
           })
           .strict()

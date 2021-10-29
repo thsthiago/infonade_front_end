@@ -1,6 +1,7 @@
 import { useField } from '@unform/core'
 import { useEffect, useRef } from 'react'
 import { FiAlertCircle } from 'react-icons/fi'
+import makeAnimated from 'react-select/animated'
 import { Props as SelectProps, OptionProps } from 'react-select'
 import AsyncSelect from 'react-select/async'
 import { Loading } from '../../Loading'
@@ -13,6 +14,8 @@ interface Props extends SelectProps<OptionProps> {
   handleSearch: any
   isMultiOptions?: boolean
 }
+
+const animatedComponents = makeAnimated()
 
 export const SelectDefault = ({
   name,
@@ -38,7 +41,7 @@ export const SelectDefault = ({
         }
 
         if (!props.value) {
-          return null
+          return {}
         }
         return props.value
       }
@@ -57,6 +60,7 @@ export const SelectDefault = ({
         loadingMessage={() => isLoadingMessage}
         noOptionsMessage={() => messageNoOptions}
         components={{
+          ...animatedComponents,
           LoadingIndicator: () => (
             <Loading
               size={17}
@@ -74,7 +78,7 @@ export const SelectDefault = ({
       />
 
       {error && (
-        <Error title="Curso obrigatório">
+        <Error title={error}>
           <FiAlertCircle color="#c53030" />
         </Error>
       )}

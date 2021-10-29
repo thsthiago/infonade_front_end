@@ -7,18 +7,19 @@ import * as Yup from 'yup'
 import getValidationErrors from '../../../../utils/getValidationErrors'
 import { SelectDefault } from '../../../../components/Selects/SelectDefault'
 import { FormQuestion } from './components/FormQuestion'
+import { Button } from '../../../../components/Button'
 
 const mockDisciplinas: any = [
   {
-    value: 'Engenharia de software',
+    value: 1,
     label: 'Engenharia de software'
   },
   {
-    value: 'Programação web',
+    value: 2,
     label: 'Programação web'
   },
   {
-    value: 'Cliente/Servidor',
+    value: 3,
     label: 'Cliente/Servidor'
   }
 ]
@@ -43,10 +44,23 @@ export const CreateQuestions = () => {
     })
 
   const handleSubmit = useCallback(async (data) => {
+    console.log(data)
     try {
       formRef.current?.setErrors({})
       const schema = Yup.object().shape({
-        curso: Yup.string().required('Nome do curso obrigatório')
+        curso: Yup.object().shape({
+          label: Yup.string().required('Curso obrigatório'),
+          value: Yup.number()
+        }),
+        edicao: Yup.object().shape({
+          label: Yup.string().required('Edição obrigatória'),
+          value: Yup.number()
+        }),
+        disciplinas: Yup.array()
+          .min(1, 'Selecione pelo menos 1 disciplina')
+          .of(Yup.string()),
+        numeroQuestao: Yup.string().required('Número da questão é obrigatório'),
+        enunciado: Yup.string().required('Enunciado obrigatório')
       })
 
       await schema.validate(data, {
@@ -60,7 +74,7 @@ export const CreateQuestions = () => {
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err)
-
+        console.log(errors)
         formRef.current?.setErrors(errors)
       }
     }
@@ -89,6 +103,9 @@ export const CreateQuestions = () => {
             <FormQuestion key={question} />
           ))}
         </div>
+        <Button type="submit" color="primary">
+          Enviar
+        </Button>
       </Form>
     </Container>
   )

@@ -1,15 +1,12 @@
 import { FormHandles } from '@unform/core'
-import { useCallback, useRef, useState } from 'react'
-import * as Yup from 'yup'
+import { useRef } from 'react'
 import { usePopup } from '../../../../../../hooks/usePopup'
 import { Container } from './styles'
-import getValidationErrors from '../../../../../../utils/getValidationErrors'
 import { SelectDefault } from '../../../../../../components/Selects/SelectDefault'
 import { Select } from '../../../../../../components/Selects/Select'
 import { Input } from '../../../../../../components/Input'
-import { Editor } from 'react-draft-wysiwyg'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { RadioQuestion } from './components/RadioQuestion'
+import { Editor } from '../../../../../../components/Editor'
 
 const mockDisciplinas: any = [
   {
@@ -44,32 +41,8 @@ export const FormQuestion = () => {
       }, 1000)
     })
 
-  const handleSubmit = useCallback(async (data) => {
-    try {
-      formRef.current?.setErrors({})
-      const schema = Yup.object().shape({
-        curso: Yup.string().required('Nome do curso obrigatório')
-      })
-
-      await schema.validate(data, {
-        abortEarly: false
-      })
-
-      addPopup({
-        type: 'success',
-        title: 'Curso criado com sucesso!'
-      })
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err)
-
-        formRef.current?.setErrors(errors)
-      }
-    }
-  }, [])
-
   return (
-    <Container ref={formRef} onSubmit={handleSubmit}>
+    <Container>
       <SelectDefault
         isMulti
         handleSearch={handleSearch}
@@ -98,31 +71,13 @@ export const FormQuestion = () => {
         }}
       />
       <Input name="numeroQuestao" placeholder="Número da questão" />
-      <Editor
-        wrapperClassName="demo-wrapper"
-        editorClassName="demo-editor"
-        toolbarClassName="toolbar-class"
-        placeholder="Enunciado"
-        toolbarStyle={{
-          background: '#413D51',
-          borderRadius: '5px',
-          padding: '10px'
-        }}
-        editorStyle={{
-          background: '#fff',
-          height: 170,
-          padding: '0 10px',
-          fontFamily: '"Roboto", open-sans',
-          borderRadius: '5px',
-          boxShadow: '0px 0px 10px 3px rgba(0, 0, 0, 0.1)'
-        }}
-      />
+      <Editor name="enunciado" />
 
-      <RadioQuestion name="teste" value="testesa" letra="a" />
-      <RadioQuestion name="teste" value="testesa" letra="c" />
-      <RadioQuestion name="teste" value="testesa" letra="b" />
-      <RadioQuestion name="teste" value="testesa" letra="c" />
-      <RadioQuestion name="teste" value="testesa" letra="d" />
+      <RadioQuestion name="letraA" nameRadio="teste" value="A" letra="A" />
+      <RadioQuestion name="letraB" nameRadio="teste" value="B" letra="B" />
+      <RadioQuestion name="letraC" nameRadio="teste" value="C" letra="C" />
+      <RadioQuestion name="letraD" nameRadio="teste" value="D" letra="D" />
+      <RadioQuestion name="letraE" nameRadio="teste" value="E" letra="E" />
     </Container>
   )
 }
