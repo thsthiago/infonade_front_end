@@ -56,9 +56,16 @@ export const Header = () => {
             </li>
             <li>
               <span></span>
-              <Link to="/gerenciamento" onClick={handleDisabledNav}>
+              <Link to="/cursos" onClick={handleDisabledNav}>
                 <MdManageAccounts />
-                Gerenciamento
+                Cursos
+              </Link>
+            </li>
+            <li>
+              <span></span>
+              <Link to="/disciplinas" onClick={handleDisabledNav}>
+                <MdManageAccounts />
+                Disciplinas
               </Link>
             </li>
           </ul>
@@ -88,9 +95,16 @@ export const Header = () => {
           </li>
           <li>
             <span></span>
-            <Link to="/gerenciamento">
+            <Link to="/cursos">
               <MdManageAccounts />
-              <strong>Gerenciamento</strong>
+              <strong>Cursos</strong>
+            </Link>
+          </li>
+          <li>
+            <span></span>
+            <Link to="/disciplinas">
+              <MdManageAccounts />
+              <strong>Disciplinas</strong>
             </Link>
           </li>
         </NavDesktop>

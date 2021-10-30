@@ -60,7 +60,52 @@ export const CreateQuestions = () => {
           .min(1, 'Selecione pelo menos 1 disciplina')
           .of(Yup.string()),
         numeroQuestao: Yup.string().required('Número da questão é obrigatório'),
-        enunciado: Yup.string().required('Enunciado obrigatório')
+        enunciado: Yup.string().required('Enunciado obrigatório'),
+        letraA: Yup.object().shape({
+          correta: Yup.string().required(
+            'Obrigatório pelo menos 1 alternativa correta'
+          ),
+          enunciado: Yup.string().required(
+            'Enunciado da alternativa obrigatório'
+          ),
+          letra: Yup.string()
+        }),
+        letraB: Yup.object().shape({
+          correta: Yup.string().required(
+            'Obrigatório pelo menos 1 alternativa correta'
+          ),
+          enunciado: Yup.string().required(
+            'Enunciado da alternativa obrigatório'
+          ),
+          letra: Yup.string()
+        }),
+        letraC: Yup.object().shape({
+          correta: Yup.string().required(
+            'Obrigatório pelo menos 1 alternativa correta'
+          ),
+          enunciado: Yup.string().required(
+            'Enunciado da alternativa obrigatório'
+          ),
+          letra: Yup.string()
+        }),
+        letraD: Yup.object().shape({
+          correta: Yup.string().required(
+            'Obrigatório pelo menos 1 alternativa correta'
+          ),
+          enunciado: Yup.string().required(
+            'Enunciado da alternativa obrigatório'
+          ),
+          letra: Yup.string()
+        }),
+        letraE: Yup.object().shape({
+          correta: Yup.string().required(
+            'Obrigatório pelo menos 1 alternativa correta'
+          ),
+          enunciado: Yup.string().required(
+            'Enunciado da alternativa obrigatório'
+          ),
+          letra: Yup.string()
+        })
       })
 
       await schema.validate(data, {

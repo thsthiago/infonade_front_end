@@ -1,7 +1,7 @@
 import { FormHandles } from '@unform/core'
 import { Form } from '@unform/web'
 import * as Yup from 'yup'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef } from 'react'
 import { SelectDefault } from '../../../../components/Selects/SelectDefault'
 import { usePopup } from '../../../../hooks/usePopup'
 import getValidationErrors from '../../../../utils/getValidationErrors'

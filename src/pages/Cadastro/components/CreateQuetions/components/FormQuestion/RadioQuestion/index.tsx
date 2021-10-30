@@ -1,6 +1,7 @@
 import { useField } from '@unform/core'
 import { useEffect, useRef, useState } from 'react'
-import { Container } from './styles'
+import { FiAlertCircle } from 'react-icons/fi'
+import { Container, Error } from './styles'
 
 interface IRadioQuestion {
   value: string
@@ -18,7 +19,7 @@ export const RadioQuestion = ({
   const [alternativaState, setAlternativaState] = useState<string>('')
   const enunciadoRef = useRef(null)
   const radioRef = useRef<HTMLInputElement>(null)
-  const { fieldName, defaultValue, registerField, error } = useField(name)
+  const { fieldName, registerField, error } = useField(name)
 
   useEffect(() => {
     registerField({
@@ -30,7 +31,7 @@ export const RadioQuestion = ({
         }
 
         return {
-          correta: radioRef.current?.checked,
+          correta: radioRef.current?.checked ? 'SIM' : 'NÃO',
           letra: value,
           enunciado: alternativaState
         }
@@ -56,6 +57,12 @@ export const RadioQuestion = ({
         value={alternativaState}
         onChange={handleValue}
       />
+
+      {error && (
+        <Error title={error}>
+          <FiAlertCircle color="#c53030" />
+        </Error>
+      )}
     </Container>
   )
 }

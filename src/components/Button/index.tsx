@@ -3,7 +3,7 @@ import { Container } from './styles'
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
-  color: 'primary' | 'secondary' | 'delete'
+  color: 'primary' | 'secondary' | 'delete' | 'confirm'
 }
 
 export const Button = ({ children, color, ...rest }: IButtonProps) => {

@@ -5,7 +5,7 @@ import { Container } from './styles'
 import { SelectDefault } from '../../../../../../components/Selects/SelectDefault'
 import { Select } from '../../../../../../components/Selects/Select'
 import { Input } from '../../../../../../components/Input'
-import { RadioQuestion } from './components/RadioQuestion'
+import { RadioQuestion } from './RadioQuestion'
 import { Editor } from '../../../../../../components/Editor'
 
 const mockDisciplinas: any = [

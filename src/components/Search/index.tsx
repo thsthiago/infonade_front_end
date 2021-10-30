@@ -1,27 +1,21 @@
-import { useState } from 'react'
+import { InputHTMLAttributes, useState } from 'react'
 import { FiSearch } from 'react-icons/fi'
 import { Container } from './styles'
 
-export const Search = () => {
+interface ISearch extends InputHTMLAttributes<HTMLInputElement> {
+  handleSubmit(e: any): void
+}
+
+export const Search = ({ handleSubmit, ...rest }: ISearch) => {
   const [state, setState] = useState<string>('')
 
   const handleState = (e: any) => {
-    const format = e.target.value.replace(/[^a-zA-Z ]/g, '')
-    setState(format)
-    console.log(format)
-  }
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
+    setState(e.target.value)
   }
 
   return (
-    <Container onSubmit={(e) => handleSubmit(e)}>
-      <input
-        value={state}
-        onChange={handleState}
-        placeholder="Pesquise por curso ou disciplina"
-      />
+    <Container onSubmit={(e: any) => handleSubmit(e.target.value)}>
+      <input {...rest} value={state} onChange={handleState} />
       <button type="submit">
         <FiSearch />
       </button>

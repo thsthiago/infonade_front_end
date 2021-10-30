@@ -63,7 +63,10 @@ const Consulta = () => {
         <Button onClick={() => handleToggleFilter()} color="secondary">
           Filtro
         </Button>
-        <Search />
+        <Search
+          placeholder="Pesquise por disciplina ou curso"
+          handleSubmit={(e: any) => console.log(e)}
+        />
         <Filtro open={isOpenFilter} setIsOpen={handleToggleFilter} />
       </div>
       <div>

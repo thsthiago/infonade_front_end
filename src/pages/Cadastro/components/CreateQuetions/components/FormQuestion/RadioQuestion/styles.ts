@@ -1,16 +1,18 @@
 import styled from 'styled-components'
+import Tooltip from '../../../../../../../components/Tooltip'
 
 export const Container = styled.div`
   width: 100%;
-  margin-top: 5px;
+
   display: flex;
   align-items: center;
+  position: relative;
 
   label {
     display: block;
     position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
+    width: 55px;
+    height: 40px;
     cursor: pointer;
     font-size: 22px;
     -webkit-user-select: none;
@@ -27,10 +29,10 @@ export const Container = styled.div`
 
   label span {
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 3px 4px;
     background-color: #ffffff;
     border-radius: 50%;
     border: 1px solid var(--secondary);
@@ -46,7 +48,6 @@ export const Container = styled.div`
     background: #fff;
     height: 45px;
     width: 100%;
-    margin-left: 25px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -54,5 +55,31 @@ export const Container = styled.div`
     border: none;
     padding: 0 10px;
     box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.1);
+  }
+`
+
+export const Error = styled(Tooltip)`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 5px;
+  height: 20px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    margin: 0;
+  }
+  span {
+    background: #c53030;
+    color: var(--text);
+    &::before {
+      border-color: #c53030 transparent;
+    }
+  }
+
+  @media (max-width: 900px) {
+    right: 50px;
   }
 `

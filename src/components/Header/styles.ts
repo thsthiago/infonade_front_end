@@ -198,13 +198,28 @@ export const NavMobile = styled.div<INavMobile>`
 
       span {
         ${(props) =>
-          props.pathname === '/gerenciamento' &&
+          props.pathname === '/cursos' && 'background-color: var(--blue-200);'}
+      }
+
+      a {
+        color: ${(props) =>
+          props.pathname === '/cursos' ? 'var(--blue-200)' : 'var(--blue-100)'};
+      }
+    }
+
+    li:nth-of-type(5) {
+      left: ${(props) => (props.activeNav ? '0' : '100%')};
+      transition: left 0.8s;
+
+      span {
+        ${(props) =>
+          props.pathname === '/disciplinas' &&
           'background-color: var(--blue-200);'}
       }
 
       a {
         color: ${(props) =>
-          props.pathname === '/gerenciamento'
+          props.pathname === '/disciplinas'
             ? 'var(--blue-200)'
             : 'var(--blue-100)'};
       }
@@ -300,13 +315,25 @@ export const NavDesktop = styled.ul<INavDesktop>`
     li:nth-of-type(4) {
       span {
         ${(props) =>
-          props.pathname === '/gerenciamento' &&
+          props.pathname === '/cursos' && 'background-color: var(--blue-200);'}
+      }
+
+      a {
+        color: ${(props) =>
+          props.pathname === '/cursos' ? 'var(--blue-200)' : 'var(--blue-100)'};
+      }
+    }
+
+    li:nth-of-type(5) {
+      span {
+        ${(props) =>
+          props.pathname === '/disciplinas' &&
           'background-color: var(--blue-200);'}
       }
 
       a {
         color: ${(props) =>
-          props.pathname === '/gerenciamento'
+          props.pathname === '/disciplinas'
             ? 'var(--blue-200)'
             : 'var(--blue-100)'};
       }
