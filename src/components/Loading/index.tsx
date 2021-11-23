@@ -1,12 +1,12 @@
 import { Container } from './styles'
-import { FC } from 'react'
 
 export interface LoadingProps {
   size: number
   border: number
   styles?: any
+  color?: string
 }
 
-export const Loading = ({ size, border, styles }: LoadingProps) => (
-  <Container size={size} border={border} style={styles} />
+export const Loading = ({ size, color, border, styles }: LoadingProps) => (
+  <Container color={color} size={size} border={border} style={styles} />
 )

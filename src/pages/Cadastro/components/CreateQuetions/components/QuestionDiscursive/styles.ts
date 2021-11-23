@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Tooltip from '../../../../../../../components/Tooltip'
+import Tooltip from '../../../../../../components/Tooltip'
 
 export const Container = styled.div`
   width: 100%;
@@ -21,39 +21,30 @@ export const Container = styled.div`
     user-select: none;
   }
 
-  label input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-  }
-
   label span {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 3px 4px;
-    background-color: #ffffff;
+    background: var(--secondary);
     border-radius: 50%;
     border: 1px solid var(--secondary);
     text-align: center;
-  }
-
-  label input:checked ~ span {
-    background: var(--secondary);
     color: #fff;
   }
 
-  input:last-of-type {
+  textarea {
+    resize: none;
     background: #fff;
-    height: 45px;
+    height: 100px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-radius: 5px;
     border: none;
-    padding: 0 10px;
+    padding: 10px;
     box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.1);
   }
 `

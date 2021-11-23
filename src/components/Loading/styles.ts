@@ -22,7 +22,10 @@ export const Container = styled.div<LoadingProps>`
     height: ${(props) => `${props.size}px`};
     border-radius: 50%;
     border: ${(props) => `${props.border}px`} solid var(--primary);
-    border-color: var(--primary) transparent var(--primary) transparent;
+    border-color: ${(props) =>
+      props.color
+        ? `${props.color} transparent ${props.color} transparent`
+        : 'var(--primary) transparent var(--primary) transparent;'};
     animation: ${LoadingAnimation} 1.2s linear infinite;
   }
 `

@@ -23,4 +23,9 @@ export const Container = styled.button<IContainerProps>`
   &:hover {
     background: ${(props) => shade(0.1, colors[props.color])};
   }
+
+  &:disabled {
+    background: #898989;
+    cursor: not-allowed;
+  }
 `

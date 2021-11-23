@@ -1,5 +1,5 @@
-import { useField } from '@unform/core'
 import { useEffect, useRef, useState } from 'react'
+import { useField } from '@unform/core'
 import { FiAlertCircle } from 'react-icons/fi'
 import { Container, Error } from './styles'
 
@@ -10,7 +10,7 @@ interface IRadioQuestion {
   nameRadio: string
 }
 
-export const RadioQuestion = ({
+export const QuestionAlternative = ({
   letra,
   nameRadio,
   name,
