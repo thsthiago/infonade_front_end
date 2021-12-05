@@ -17,8 +17,8 @@ export const QuestionAlternative = ({
   value
 }: IRadioQuestion) => {
   const [alternativaState, setAlternativaState] = useState<string>('')
-  const enunciadoRef = useRef(null)
-  const radioRef = useRef<HTMLInputElement>(null)
+  const enunciadoRef = useRef<any>(null)
+  const radioRef = useRef<any>(null)
   const { fieldName, registerField, error } = useField(name)
 
   useEffect(() => {
@@ -35,9 +35,13 @@ export const QuestionAlternative = ({
           letra: value,
           enunciado: alternativaState
         }
+      },
+      setValue: (props: any) => {
+        radioRef.current.checked = false
+        setAlternativaState('')
       }
     })
-  }, [fieldName, registerField])
+  }, [fieldName, registerField, alternativaState])
 
   const handleValue = (e: any) => {
     setAlternativaState(e.target.value)
@@ -47,7 +51,7 @@ export const QuestionAlternative = ({
     <Container>
       <label>
         <input type="radio" name={nameRadio} ref={radioRef} />
-        <span>{letra.toUpperCase()}</span>
+        <strong>{letra.toUpperCase()}</strong>
       </label>
 
       <input

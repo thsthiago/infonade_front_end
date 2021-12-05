@@ -27,7 +27,7 @@ export const Container = styled.div`
     cursor: pointer;
   }
 
-  label span {
+  label strong {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -39,7 +39,7 @@ export const Container = styled.div`
     text-align: center;
   }
 
-  label input:checked ~ span {
+  label input:checked ~ strong {
     background: var(--secondary);
     color: #fff;
   }

@@ -1,4 +1,6 @@
 import { StylesConfig } from 'react-select'
+import Tooltip from 'src/components/Tooltip'
+import styled from 'styled-components'
 
 export const colourStyles = {
   dropdownIndicator: (styles: any) => ({
@@ -65,3 +67,34 @@ export const colourStyles = {
     }
   })
 }
+
+export const Container = styled.div`
+  position: relative;
+  width: 100%;
+`
+
+export const Error = styled(Tooltip)`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 40px;
+  height: 20px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    margin: 0;
+  }
+  span {
+    background: #c53030;
+    color: var(--text);
+    &::before {
+      border-color: #c53030 transparent;
+    }
+  }
+
+  @media (max-width: 900px) {
+    right: 50px;
+  }
+`

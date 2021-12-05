@@ -9,14 +9,6 @@ interface IRadioQuestion {
   value: string
 }
 
-const letterDiscursive: any = {
-  '0': 'A',
-  '1': 'B',
-  '2': 'C',
-  '3': 'D',
-  '4': 'E'
-}
-
 export const QuestionDiscusive = ({ letra, name, value }: IRadioQuestion) => {
   const [alternativaState, setAlternativaState] = useState<string>('')
   const enunciadoRef = useRef(null)
@@ -35,6 +27,9 @@ export const QuestionDiscusive = ({ letra, name, value }: IRadioQuestion) => {
           letra: value,
           enunciado: alternativaState
         }
+      },
+      setValue: (props: any) => {
+        setAlternativaState('')
       }
     })
   }, [fieldName, registerField, alternativaState])
@@ -46,7 +41,7 @@ export const QuestionDiscusive = ({ letra, name, value }: IRadioQuestion) => {
   return (
     <Container>
       <label>
-        <span>{letra}</span>
+        <strong>{letra}</strong>
       </label>
 
       <textarea

@@ -1,49 +1,21 @@
 import styled from 'styled-components'
 import Tooltip from '../Tooltip'
 
-interface InputProps {
-  isErrored: boolean
-}
-
-export const Container = styled.div<InputProps>`
+export const Container = styled.div`
   background: #fff;
-  height: 45px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-radius: 5px;
   box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.1);
+  padding: 10px;
 
-  div:first-child {
-    width: 50px;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px 0px 0px 10px;
-  }
-
-  input {
-    flex: 1;
-    color: var(--color);
+  textarea {
+    resize: none;
+    width: 100%;
+    height: 120px;
     border: none;
-    padding-left: 10px;
-    &::placeholder {
-      color: #adaeb0;
-    }
-
-    &::-webkit-inner-spin-button {
-      display: none;
-    }
-  }
-
-  & + div {
-    margin-top: 10px;
-  }
-
-  @media (max-width: 900px) {
-    position: relative;
   }
 `
 

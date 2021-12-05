@@ -1,65 +1,49 @@
 import { FormHandles } from '@unform/core'
 import { Form } from '@unform/web'
 import * as Yup from 'yup'
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { SelectDefault } from '../../../../components/Selects/SelectDefault'
 import { usePopup } from '../../../../hooks/usePopup'
 import getValidationErrors from '../../../../utils/getValidationErrors'
 import { Button } from '../../../../components/Button'
 import { Container } from './styles'
 import { SelectCreate } from '../../../../components/Selects/SelectCreate'
+import { coursesService } from 'src/services/coursesService'
+import { subjectsService } from 'src/services/subjectsService'
+import { Loading } from 'src/components/Loading'
+import { useDebaunceSelect } from 'src/hooks/useDebaunce'
 
 export const CreateSubject = () => {
   const formRef = useRef<FormHandles>(null)
   const { addPopup } = usePopup()
-  const mockCursos: any = [
-    {
-      value: 'Ciência da computação',
-      label: 'Ciência da computação'
-    },
-    {
-      value: 'Análise e Desenvolvimento de Sistemas',
-      label: 'Análise e Desenvolvimento de Sistemas'
-    }
-  ]
+  const [loading, setLoading] = useState<boolean>(false)
+  const debounce = useDebaunceSelect({
+    fn: coursesService.getCourses,
+    delay: 500
+  })
 
-  const mockDisciplinas: any = [
-    {
-      value: 'Engenharia de software',
-      label: 'Engenharia de software'
-    },
-    {
-      value: 'Programação web',
-      label: 'Programação web'
-    },
-    {
-      value: 'Cliente/Servidor',
-      label: 'Cliente/Servidor'
-    }
-  ]
+  const handleSearchCourse = async (search: string) => {
+    const response: any = await debounce(search)
 
-  const pesquisaTeste = (value: string): any => {
-    return mockDisciplinas.filter(
-      (disciplina: { label: string; value: number }) =>
-        disciplina.label.toLowerCase().includes(value.toLowerCase())
-    )
-  }
-
-  const handleSearch: any = async (value: string) =>
-    new Promise<any[]>((resolve) => {
-      setTimeout(() => {
-        resolve(pesquisaTeste(value))
-      }, 1000)
+    const courcesFormat = response.map((curse: any) => {
+      return {
+        value: curse.id,
+        label: curse.nome
+      }
     })
+
+    return courcesFormat
+  }
 
   const handleSubmit = useCallback(async (data) => {
     try {
+      setLoading(true)
       formRef.current?.setErrors({})
       const schema = Yup.object().shape({
         curso: Yup.object()
           .shape({
             label: Yup.string().required('Curso obrigatório'),
-            value: Yup.string()
+            value: Yup.number()
           })
           .strict()
           .required('Curso obrigatório'),
@@ -72,21 +56,39 @@ export const CreateSubject = () => {
         abortEarly: false
       })
 
-      addPopup({
-        type: 'success',
-        title: 'Disciplina criada com successo.'
+      data.disciplinas.map(async (disciplina: any) => {
+        try {
+          await subjectsService.addSubject({
+            nome: disciplina,
+            curso: {
+              id: data.curso.value
+            }
+          })
+          addPopup({
+            type: 'success',
+            title: `${disciplina} criado com sucesso`
+          })
+        } catch (err) {
+          addPopup({
+            type: 'error',
+            title: `Ocorreu um erro`,
+            description: `Erro ao criar ${disciplina} :(`
+          })
+        }
       })
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err)
         formRef.current?.setErrors(errors)
+        return
       }
-
       addPopup({
         type: 'error',
         title: 'Desculpe, ocorreu algum erro :(',
         description: 'Entre em contato com o administrador.'
       })
+    } finally {
+      setLoading(false)
     }
   }, [])
 
@@ -95,23 +97,27 @@ export const CreateSubject = () => {
       <Form ref={formRef} onSubmit={handleSubmit}>
         <SelectDefault
           name="curso"
-          handleSearch={handleSearch}
+          handleSearch={handleSearchCourse}
           isLoadingMessage="Procurando curso..."
           placeholder="Selecione uma curso"
           messageNoOptions="Nenhum curso encontrado"
-          options={mockCursos}
         />
 
         <SelectCreate
           name="disciplinas"
-          handleSearch={handleSearch}
-          isLoadingMessage="Procurando disciplina..."
-          placeholder="Crie ou selecione uma disciplina"
-          options={mockDisciplinas}
+          placeholder="Crie uma ou mais displinas"
         />
 
-        <Button color="primary" type="submit">
-          Criar disciplina
+        <Button
+          color="primary"
+          type="submit"
+          disabled={loading}
+          style={{ width: 150 }}>
+          {loading ? (
+            <Loading border={4} size={15} color="#ffffff" />
+          ) : (
+            'Criar disciplina'
+          )}
         </Button>
       </Form>
     </Container>

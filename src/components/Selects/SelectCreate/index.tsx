@@ -9,8 +9,8 @@ import { Loading } from '../../Loading'
 
 interface Props extends SelectProps<OptionProps> {
   name: string
-  handleSearch(): any
-  isLoadingMessage: string
+  handleSearch?(): any
+  isLoadingMessage?: string
 }
 
 const animatedComponents = makeAnimated()
@@ -63,8 +63,6 @@ export const SelectCreate = ({
             />
           )
         }}
-        loadOptions={handleSearch}
-        loadingMessage={() => isLoadingMessage}
         {...rest}
       />
 

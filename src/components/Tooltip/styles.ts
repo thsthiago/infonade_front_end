@@ -17,6 +17,7 @@ export const Container = styled.div`
     left: 50%;
     transform: translateX(-50%);
     color: var(--text);
+    font-family: 'Roboto', sans-serif;
     &::before {
       content: '';
       border-style: solid;

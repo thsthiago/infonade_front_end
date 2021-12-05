@@ -23,7 +23,7 @@ const animationLink = keyframes`
 
 export const Container = styled.header`
   position: fixed;
-  z-index: 1;
+  z-index: 1300;
   width: 100%;
   padding: 10px 0;
   background: var(--primary);

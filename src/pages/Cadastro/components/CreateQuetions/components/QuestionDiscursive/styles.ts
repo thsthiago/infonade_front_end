@@ -21,7 +21,7 @@ export const Container = styled.div`
     user-select: none;
   }
 
-  label span {
+  label strong {
     position: absolute;
     top: 50%;
     left: 50%;

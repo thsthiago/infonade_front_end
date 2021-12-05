@@ -14,21 +14,11 @@ import getValidationErrors from '../../../../utils/getValidationErrors'
 import { usePopup } from '../../../../hooks/usePopup'
 import { TypeQuestion } from './components/TypeQuestion'
 import { Loading } from 'src/components/Loading'
-
-const mockDisciplinas: any = [
-  {
-    value: 1,
-    label: 'Engenharia de software'
-  },
-  {
-    value: 2,
-    label: 'Programação web'
-  },
-  {
-    value: 3,
-    label: 'Cliente/Servidor'
-  }
-]
+import { Textarea } from 'src/components/Textarea'
+import { coursesService } from 'src/services/coursesService'
+import { useDebaunceSelect } from 'src/hooks/useDebaunce'
+import { subjectsService } from 'src/services/subjectsService'
+import { questionsService } from 'src/services/questionsService'
 
 const schemaQuestion = {
   curso: Yup.object().shape({
@@ -95,25 +85,134 @@ export const CreateQuestions = () => {
   const elementRoot = document.querySelector('#root') as Element
   const containerRef = useRef<any>(null)
   const formRef = useRef<FormHandles>(null)
+  const [isDisabled, setIsDisabled] = useState(true)
   const [loading, setLoading] = useState<boolean>(false)
   const { addPopup } = usePopup()
+  const [courses, setCources] = useState([])
+  const [edicoes, setEdicoes] = useState([])
+  const [disciplinas, setDisciplinas] = useState([])
   const [typeQuestion, setTypeQuestion] = useState<
     'alternativa' | 'dissertativa'
   >('alternativa')
+  const debounceCurse = useDebaunceSelect({
+    fn: coursesService.getCourses,
+    delay: 500
+  })
 
-  const pesquisaTeste = (value: string): any => {
-    return mockDisciplinas.filter(
-      (disciplina: { label: string; value: number }) =>
-        disciplina.label.toLowerCase().includes(value.toLowerCase())
-    )
+  const handleSearchCourse = async (search: string) => {
+    try {
+      const response: any = await debounceCurse({
+        header: {
+          'Page-Size': 10,
+          'Page-Number': 0
+        },
+        params: {
+          nome: search === '' ? undefined : search
+        }
+      })
+      setCources(response)
+
+      const courcesFormat = response.map((curse: any) => {
+        return {
+          value: curse.id,
+          label: curse.nome
+        }
+      })
+
+      return courcesFormat
+    } catch (err) {
+      console.log(err)
+    }
   }
 
-  const handleSearch: any = async (value: string) =>
-    new Promise<any[]>((resolve) => {
-      setTimeout(() => {
-        resolve(pesquisaTeste(value))
-      }, 1000)
+  const searchSubjects = async (id: number) => {
+    try {
+      const response = await subjectsService.getSubjects({ curso: id })
+      const subjectsFormt: any = response.map((subject: any) => {
+        return {
+          value: subject.id,
+          label: subject.nome
+        }
+      })
+
+      setDisciplinas(subjectsFormt)
+    } catch (err) {}
+  }
+
+  const onChangeCurse = (e: any) => {
+    formRef?.current?.setFieldValue('edicao', '')
+    formRef?.current?.setFieldValue('disciplinas', '')
+    const cource: any = courses.find((item: any) => item.id === e.value)
+    searchSubjects(e.value)
+
+    const courcesEditions = cource?.edicoes?.map((edicao: number) => {
+      return {
+        value: edicao,
+        label: edicao
+      }
     })
+
+    setEdicoes(courcesEditions)
+    setIsDisabled(false)
+  }
+
+  const formatData = (data: any) => {
+    const disciplinas = data.disciplinas.map((disciplina: any) => {
+      return {
+        id: disciplina
+      }
+    })
+
+    const alternativas = data.alternativas.map((alternativa: any) => {
+      if (
+        typeQuestion === 'dissertativa' &&
+        typeof alternativa.enunciado !== 'string'
+      ) {
+        return
+      }
+      return {
+        enunciado: alternativa.enunciado,
+        letra: alternativa.letra
+      }
+    })
+
+    return {
+      tipoQuestao: data.type.label,
+      numQuestao: data.numeroQuestao,
+      edicao: data.edicao.value,
+      enunciado: data.enunciado,
+      resposta:
+        typeQuestion === 'alternativa'
+          ? data.resposta
+          : JSON.stringify(
+              alternativas.filter((alternativa: any) => alternativa)
+            ),
+      alternativas: typeQuestion === 'alternativa' ? alternativas : undefined,
+      anotacoes: [
+        {
+          anotacao: data.anotacao,
+          createdAt: new Date().toISOString()
+        }
+      ],
+      curso: {
+        id: data.curso.value
+      },
+      disciplinas
+    }
+  }
+
+  const resetForm = () => {
+    formRef.current?.setFieldValue('disciplinas', '')
+    formRef.current?.clearField('tipoQuestao')
+    formRef.current?.clearField('numeroQuestao')
+    formRef.current?.setFieldValue('enunciado', '')
+    formRef.current?.clearField('anotacao')
+    formRef.current?.setFieldValue('letraA', '')
+    formRef.current?.setFieldValue('letraB', '')
+    formRef.current?.setFieldValue('letraC', '')
+    formRef.current?.setFieldValue('letraD', '')
+    formRef.current?.setFieldValue('letraE', '')
+  }
 
   const handleSubmit = useCallback(
     async (data) => {
@@ -136,18 +235,60 @@ export const CreateQuestions = () => {
           abortEarly: false
         })
 
-        await handleSearch('a')
-        await handleSearch('b')
+        let resposta
 
+        const alternativas = [
+          data.letraA,
+          data.letraB,
+          data.letraC,
+          data.letraD,
+          data.letraE
+        ]
+
+        const validate = alternativas.every((alternativa) => {
+          if (alternativa.correta === 'SIM') {
+            resposta = alternativa.letra
+            return false
+          }
+          return true
+        })
+
+        if (validate && typeQuestion === 'alternativa') {
+          throw new Error('Selecione uma alternativa')
+        }
+
+        const response = formatData({ ...data, alternativas, resposta })
+
+        await questionsService.addQuestion(response)
+
+        resetForm()
         addPopup({
           type: 'success',
           title: 'Curso criado com sucesso!'
         })
-      } catch (err) {
+      } catch (err: any) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err)
           formRef.current?.setErrors(errors)
+          return
         }
+
+        if (err.message === 'Selecione uma alternativa') {
+          formRef?.current?.setErrors({
+            letraA: 'Selecione uma alternativa',
+            letraB: 'Selecione uma alternativa',
+            letraC: 'Selecione uma alternativa',
+            letraD: 'Selecione uma alternativa',
+            letraE: 'Selecione uma alternativa'
+          })
+          return
+        }
+
+        console.log(err.message)
+        addPopup({
+          type: 'error',
+          title: 'Ocorreu algum erro'
+        })
       } finally {
         elementRoot.scrollIntoView({ behavior: 'smooth' })
         setLoading(false)
@@ -165,27 +306,36 @@ export const CreateQuestions = () => {
       <Form ref={formRef} onSubmit={handleSubmit}>
         <SelectDefault
           name="curso"
-          handleSearch={handleSearch}
+          handleSearch={handleSearchCourse}
           isLoadingMessage="Procurando curso..."
           messageNoOptions="Curso não encontrado"
           placeholder="Selecione um curso"
+          onChange={onChangeCurse}
         />
-        <SelectDefault
+        <Select
+          isDisabled={isDisabled}
           name="edicao"
-          handleSearch={handleSearch}
-          isLoadingMessage="Procurando edicão..."
-          messageNoOptions="Edição não encontrada"
-          placeholder="Selecione uma edicão"
+          options={edicoes}
+          optionsMessage="Edição não encontrada"
+          placeholder={
+            isDisabled
+              ? 'Para selecionar a edição, escolha um curso'
+              : 'Selecione a edicão'
+          }
         />
         <h1>Questão</h1>
         <Box>
-          <SelectDefault
+          <Select
+            isDisabled={isDisabled}
             isMulti
-            handleSearch={handleSearch}
-            isLoadingMessage="Procurando disciplina..."
-            messageNoOptions="Disciplina não encontrada"
+            optionsMessage="Disciplina não encontrada"
+            options={disciplinas}
             name="disciplinas"
-            placeholder="Selecione uma disciplina"
+            placeholder={
+              isDisabled
+                ? 'Para selecionar as disciplinas, escolha um curso'
+                : 'Selecione uma ou mais disciplinas'
+            }
           />
 
           <Select
@@ -207,10 +357,15 @@ export const CreateQuestions = () => {
               label: 'Alternativa'
             }}
           />
-          <Input name="numeroQuestao" placeholder="Número da questão" />
+          <Input
+            name="numeroQuestao"
+            placeholder="Número da questão"
+            type="number"
+          />
           <Editor name="enunciado" />
           <TypeQuestion type={typeQuestion} />
         </Box>
+        <Textarea placeholder="Anotação (opcional)" name="anotacao" />
         <BoxBtn>
           <Button type="submit" color="primary" style={{ width: 100 }}>
             {loading ? (

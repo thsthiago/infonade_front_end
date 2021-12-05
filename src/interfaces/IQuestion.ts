@@ -6,4 +6,11 @@ export interface IQuestionDescription {
   type: 'disertativa' | 'alternativa'
   disciplinas: string[]
   id: number
+  alternativas?: IAlternativas[]
+}
+
+interface IAlternativas {
+  id: number
+  enunciado: string
+  letra: string
 }

@@ -41,7 +41,6 @@ export const GlobalStyles = createGlobalStyle`
 
   p,
   a,
-  span,
   li,
   tr,
   td,
@@ -59,7 +58,6 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     background: var(--background);
-    /* background: black; */
   }
 
   button {

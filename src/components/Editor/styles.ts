@@ -8,7 +8,7 @@ export const Container = styled.div`
 
 export const Error = styled(Tooltip)`
   position: absolute;
-  top: 34.5%;
+  top: 40%;
   right: 50%;
   transform: translateX(50%);
   height: 20px;
