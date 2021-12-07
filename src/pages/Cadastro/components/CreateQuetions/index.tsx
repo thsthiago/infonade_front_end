@@ -120,15 +120,15 @@ export const CreateQuestions = () => {
       })
 
       return courcesFormat
-    } catch (err) {
-      console.log(err)
-    }
+    } catch (err) {}
   }
 
   const searchSubjects = async (id: number) => {
     try {
-      const response = await subjectsService.getSubjects({ curso: id })
-      const subjectsFormt: any = response.map((subject: any) => {
+      const response = await subjectsService.getSubjects({
+        params: { curso: id }
+      })
+      const subjectsFormt: any = response.results.map((subject: any) => {
         return {
           value: subject.id,
           label: subject.nome
@@ -284,7 +284,6 @@ export const CreateQuestions = () => {
           return
         }
 
-        console.log(err.message)
         addPopup({
           type: 'error',
           title: 'Ocorreu algum erro'

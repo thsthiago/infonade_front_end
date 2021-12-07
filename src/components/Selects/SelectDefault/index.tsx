@@ -11,7 +11,7 @@ interface Props extends SelectProps<OptionProps> {
   name: string
   messageNoOptions: string
   isLoadingMessage: string
-  handleSearch: any
+  handleSearch?: any
   isMultiOptions?: boolean
 }
 
@@ -53,7 +53,6 @@ export const SelectDefault = ({
       <AsyncSelect
         isMulti={isMultiOptions}
         cacheOptions
-        defaultOptions
         loadOptions={handleSearch}
         styles={colourStyles}
         ref={selectRef}

@@ -75,6 +75,11 @@ export const GlobalStyles = createGlobalStyle`
     background: var(--primary);
     border-radius: 8px;
   }
+
+  .ReactModal__Body--open,
+  .ReactModal__Html--open {
+    overflow: hidden;
+  }
 `
 
 export const Container = styled.main`

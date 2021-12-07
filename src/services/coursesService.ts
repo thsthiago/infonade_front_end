@@ -1,17 +1,15 @@
-import { ICurso } from 'src/interfaces/ICurso'
+import { AxiosResponse } from 'axios'
+import { ICursoResponse, ICurso } from 'src/interfaces/ICurso'
+import { IParams } from 'src/interfaces/IParams'
+import { IResponse } from 'src/interfaces/IResponse'
 import app from './app'
 
-type IHeader = {
-  [search: string]: string | number | undefined
-}
-
-type IParams = {
-  header?: IHeader
-  params?: IHeader
+interface IGetCurse extends IResponse {
+  results: ICursoResponse[]
 }
 
 class CoursesService {
-  async getCourses(params?: IParams): Promise<ICurso[]> {
+  async getCourses(params?: IParams): Promise<IGetCurse> {
     const { data } = await app.get('api/cursos', {
       headers: {
         ...params?.header

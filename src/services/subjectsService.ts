@@ -1,9 +1,20 @@
-import { IDisciplina } from 'src/interfaces/IDisciplina'
+import { IDisciplina, IDisciplinaResponse } from 'src/interfaces/IDisciplina'
+import { IParams } from 'src/interfaces/IParams'
+import { IResponse } from 'src/interfaces/IResponse'
 import app from './app'
 
+interface IGetDisciplinas extends IResponse {
+  results: IDisciplinaResponse[]
+}
+
 class SubjectsService {
-  async getSubjects(params?: any): Promise<IDisciplina[]> {
-    const { data } = await app.get('api/disciplinas', { params })
+  async getSubjects(params?: IParams): Promise<IGetDisciplinas> {
+    const { data } = await app.get('api/disciplinas', {
+      headers: {
+        ...params?.header
+      },
+      params: params?.params
+    })
     return data
   }
 
@@ -14,7 +25,10 @@ class SubjectsService {
   }
 
   async updateSubject(disciplina: IDisciplina): Promise<void> {
-    const { data } = await app.put('api/disciplina', disciplina)
+    const { data } = await app.put(
+      `api/disciplina/${disciplina.id}`,
+      disciplina
+    )
     return data
   }
 
@@ -24,6 +38,12 @@ class SubjectsService {
         id
       }
     })
+
+    return data
+  }
+
+  async deleteSubject(id: number): Promise<void> {
+    const { data } = await app.delete(`api/disciplina/${id}`)
 
     return data
   }

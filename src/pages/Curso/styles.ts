@@ -8,6 +8,13 @@ export const Container = styled.main`
   max-width: 800px;
   margin: 0 auto;
 
+  > p {
+    color: var(--secondary);
+    font-size: 15px;
+    margin-bottom: -10px;
+    margin-top: 30px;
+  }
+
   @media (min-width: 768px) {
     padding: 30px 0%;
     padding-left: 80px;

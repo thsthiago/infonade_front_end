@@ -1,4 +1,12 @@
-export interface ICurso {
+export type ICurso = {
   id: number
   nome: string
+}
+
+export type ICursoResponse = {
+  id: number
+  nome: string
+  edicoes: number[]
+  createdAt: Date
+  updatedAt: Date
 }
