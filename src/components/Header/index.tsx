@@ -1,7 +1,7 @@
 import LogoImg from '../../assets/Logo.svg'
-import { FaCloudDownloadAlt, FaHome } from 'react-icons/fa'
+import { FaBook, FaCloudDownloadAlt, FaHome } from 'react-icons/fa'
 import { AiOutlineFileSearch } from 'react-icons/ai'
-import { MdManageAccounts } from 'react-icons/md'
+import { RiPencilRulerFill } from 'react-icons/ri'
 
 import { Link, useLocation } from 'react-router-dom'
 import { Container, NavDesktop, NavMobile } from './styles'
@@ -57,14 +57,14 @@ export const Header = () => {
             <li>
               <span></span>
               <Link to="/cursos" onClick={handleDisabledNav}>
-                <MdManageAccounts />
+                <FaBook />
                 Cursos
               </Link>
             </li>
             <li>
               <span></span>
               <Link to="/disciplinas" onClick={handleDisabledNav}>
-                <MdManageAccounts />
+                <RiPencilRulerFill />
                 Disciplinas
               </Link>
             </li>
@@ -96,14 +96,14 @@ export const Header = () => {
           <li>
             <span></span>
             <Link to="/cursos">
-              <MdManageAccounts />
+              <FaBook />
               <strong>Cursos</strong>
             </Link>
           </li>
           <li>
             <span></span>
             <Link to="/disciplinas">
-              <MdManageAccounts />
+              <RiPencilRulerFill />
               <strong>Disciplinas</strong>
             </Link>
           </li>

@@ -127,7 +127,7 @@ const Disciplina = () => {
         )}
 
         <div>
-          {verify && totalDisciplinas === 0 && (
+          {verify && totalDisciplinas === 0 && !loading && (
             <NotFound name="nenhuma disciplina" />
           )}
 
@@ -159,7 +159,7 @@ const Disciplina = () => {
         setIsOpen={setModalIsOpen}
         isOpen={modalIsOpen.isOpen}
         confirm={modalIsOpen.fn}
-        name="disciplina"
+        name="essa disciplina"
       />
     </>
   )

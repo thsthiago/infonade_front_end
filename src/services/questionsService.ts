@@ -1,3 +1,5 @@
+import { IQuestionResponse } from 'src/interfaces/IQuestion'
+import { IResponse } from 'src/interfaces/IResponse'
 import app from './app'
 
 type IHeader = {
@@ -9,8 +11,12 @@ type IParams = {
   params?: IHeader
 }
 
+interface IGetQuestions extends IResponse {
+  results: IQuestionResponse[]
+}
+
 class QuestionsService {
-  async getQuestions(params?: IParams): Promise<any> {
+  async getQuestions(params?: IParams): Promise<IGetQuestions> {
     const { data } = await app.get('api/questoes', {
       headers: {
         ...params?.header

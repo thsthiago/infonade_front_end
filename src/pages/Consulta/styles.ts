@@ -3,27 +3,28 @@ import styled from 'styled-components'
 export const Container = styled.main`
   width: 100%;
   height: 100%;
-  padding-top: 75px;
-  padding: 75px 2% 0;
+  padding-top: 70px;
+  padding: 100px 2% 0;
+  max-width: 800px;
+  margin: 0 auto;
+
+  > p {
+    color: var(--secondary);
+    font-size: 15px;
+    margin-bottom: 10px;
+    margin-top: 30px;
+  }
 
   > div:first-child {
     display: flex;
     position: relative;
-    padding-top: 30px;
     gap: 10px;
     margin: 0 auto;
-    max-width: 600px;
-  }
-
-  > div:last-child {
-    width: 100%;
-    max-width: 800px;
-    margin: 50px auto 30px;
-    padding: 0 2%;
+    max-width: 680px;
   }
 
   @media (min-width: 768px) {
-    padding: 0%;
+    padding: 30px 0%;
     padding-left: 80px;
   }
 `

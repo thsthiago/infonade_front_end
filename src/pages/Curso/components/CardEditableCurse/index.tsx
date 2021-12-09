@@ -4,8 +4,11 @@ import { useEffect, useRef, useState } from 'react'
 import { Button } from 'src/components/Button'
 import { Input } from 'src/components/Input'
 import { Select } from 'src/components/Selects/Select'
+import Tooltip from 'src/components/Tooltip'
+import { usePopup } from 'src/hooks/usePopup'
 import { ICursoResponse } from 'src/interfaces/ICurso'
 import { IDisciplinaResponse } from 'src/interfaces/IDisciplina'
+import { coursesService } from 'src/services/coursesService'
 import { subjectsService } from 'src/services/subjectsService'
 import { Container } from './styles'
 
@@ -14,13 +17,22 @@ interface selectOptions {
   value: string | number
 }
 
+interface ICardEditableCurse extends ICursoResponse {
+  refresh(): void
+  handleDelete: any
+}
+
 export const CardEditableCurse = ({
   id,
   nome,
   edicoes,
   createdAt,
-  updatedAt
-}: ICursoResponse) => {
+  updatedAt,
+  handleDelete,
+  refresh
+}: ICardEditableCurse) => {
+  const elementRoot = document.querySelector('#root') as Element
+  const { addPopup } = usePopup()
   const formRef = useRef<FormHandles>(null)
   const [isEditable, setIsEditable] = useState<boolean>(false)
   const [disciplinas, setDisciplinas] = useState<IDisciplinaResponse[]>([])
@@ -43,7 +55,7 @@ export const CardEditableCurse = ({
         }
       })
 
-      const disciplinaFormat = response.map((disciplina) => {
+      const disciplinaFormat = response.results.map((disciplina) => {
         return {
           label: disciplina.nome,
           value: disciplina.id
@@ -59,8 +71,27 @@ export const CardEditableCurse = ({
 
       setEdicoesSelect(edicoesFormat)
       setDisciplinasSelect(disciplinaFormat)
-      setDisciplinas(response)
+      setDisciplinas(response.results)
     } catch (err) {}
+  }
+
+  const handleDeleteCurso = async () => {
+    try {
+      await coursesService.deleteCourse(id)
+
+      addPopup({
+        type: 'success',
+        title: 'Curso excluído com sucesso.'
+      })
+      refresh()
+
+      elementRoot.scrollIntoView({ behavior: 'smooth' })
+    } catch (err) {
+      addPopup({
+        type: 'error',
+        title: 'Não foi possivél excluir o curso'
+      })
+    }
   }
 
   useEffect(() => {
@@ -117,9 +148,28 @@ export const CardEditableCurse = ({
             ))}
           </div>
           <div className="boxBtn">
-            <Button type="button" color="delete">
-              Excluir
-            </Button>
+            {disciplinas.length !== 0 ? (
+              <Tooltip
+                type
+                className="tooltip"
+                title="Exclua as disciplinas ligadas a esse curso para excluir.">
+                <Button type="button" color="delete" disabled>
+                  Excluir
+                </Button>
+              </Tooltip>
+            ) : (
+              <Button
+                type="button"
+                color="delete"
+                onClick={() =>
+                  handleDelete({
+                    isOpen: true,
+                    fn: handleDeleteCurso
+                  })
+                }>
+                Excluir
+              </Button>
+            )}
 
             <Button
               type="button"

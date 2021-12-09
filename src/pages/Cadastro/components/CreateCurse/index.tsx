@@ -46,7 +46,7 @@ export const CreateCurse = () => {
         )
       }
 
-      await coursesService.addCurse({
+      await coursesService.addCourse({
         nome: data.curso,
         edicoes: data.edicoes
       })

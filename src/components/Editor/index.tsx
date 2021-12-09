@@ -9,14 +9,22 @@ import { FiAlertCircle } from 'react-icons/fi'
 import { imgurService } from 'src/services/imgurService'
 import { imgBBService } from 'src/services/imgBBService'
 import { usePopup } from 'src/hooks/usePopup'
+import htmlToDraft from 'html-to-draftjs'
 
 interface IEditorProps {
   name: string
+  enunciado?: string
 }
 
-export const Editor = ({ name }: IEditorProps) => {
+export const Editor = ({ name, enunciado }: IEditorProps) => {
   const { addPopup } = usePopup()
   const editorRef = useRef(null)
+  // const [editor, setEditor] = useState<any>(
+  //   EditorState.createWithContent(
+  //     ContentState.createFromBlockArray(convertFromHTML(enunciado))
+  //   )
+  // )
+
   const [editor, setEditor] = useState<EditorState>(EditorState.createEmpty())
 
   const { fieldName, registerField, error } = useField(name)

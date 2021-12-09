@@ -10,3 +10,8 @@ export type ICursoResponse = {
   createdAt: Date
   updatedAt: Date
 }
+
+export type ICursoCreate = {
+  nome: string
+  edicoes: number[]
+}

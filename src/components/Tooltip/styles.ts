@@ -1,10 +1,15 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
+interface IStyleProps {
+  type?: boolean
+}
+
+export const Container = styled.div<IStyleProps>`
   position: relative;
   span {
     width: 160px;
-    background: var(--delete-btn);
+    background: ${(props) =>
+      props.type ? `var(--secondary)` : 'var(--delete-btn)'};
     padding: 8px;
     border-radius: 4px;
     font-size: 14px;
@@ -21,7 +26,9 @@ export const Container = styled.div`
     &::before {
       content: '';
       border-style: solid;
-      border-color: var(--delete-btn) transparent;
+      border-color: ${(props) =>
+          props.type ? `var(--secondary)` : 'var(--delete-btn)'}
+        transparent;
       border-width: 6px 6px 0 6px;
       top: 100%;
       position: absolute;

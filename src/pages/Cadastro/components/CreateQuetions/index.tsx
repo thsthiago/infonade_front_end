@@ -19,6 +19,7 @@ import { coursesService } from 'src/services/coursesService'
 import { useDebaunceSelect } from 'src/hooks/useDebaunce'
 import { subjectsService } from 'src/services/subjectsService'
 import { questionsService } from 'src/services/questionsService'
+import { handleNumberSelect } from 'src/utils/listNumbers'
 
 const schemaQuestion = {
   curso: Yup.object().shape({
@@ -110,9 +111,9 @@ export const CreateQuestions = () => {
           nome: search === '' ? undefined : search
         }
       })
-      setCources(response)
+      setCources(response.results)
 
-      const courcesFormat = response.map((curse: any) => {
+      const courcesFormat = response.results.map((curse: any) => {
         return {
           value: curse.id,
           label: curse.nome
@@ -128,6 +129,7 @@ export const CreateQuestions = () => {
       const response = await subjectsService.getSubjects({
         params: { curso: id }
       })
+
       const subjectsFormt: any = response.results.map((subject: any) => {
         return {
           value: subject.id,
@@ -157,9 +159,9 @@ export const CreateQuestions = () => {
   }
 
   const formatData = (data: any) => {
-    const disciplinas = data.disciplinas.map((disciplina: any) => {
+    const disciplina = data.disciplinas.map((disciplinaItem: any) => {
       return {
-        id: disciplina
+        id: disciplinaItem
       }
     })
 
@@ -197,7 +199,7 @@ export const CreateQuestions = () => {
       curso: {
         id: data.curso.value
       },
-      disciplinas
+      disciplina
     }
   }
 
@@ -264,7 +266,7 @@ export const CreateQuestions = () => {
         resetForm()
         addPopup({
           type: 'success',
-          title: 'Curso criado com sucesso!'
+          title: 'Questão criada com sucesso!'
         })
       } catch (err: any) {
         if (err instanceof Yup.ValidationError) {
@@ -286,7 +288,7 @@ export const CreateQuestions = () => {
 
         addPopup({
           type: 'error',
-          title: 'Ocorreu algum erro'
+          title: 'Ocorreu um erro'
         })
       } finally {
         elementRoot.scrollIntoView({ behavior: 'smooth' })

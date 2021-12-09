@@ -1,16 +1,37 @@
-export interface IQuestionDescription {
-  curso: string
-  enunciado: string
-  numeroQuestao: number
-  edicao: number
-  type: 'disertativa' | 'alternativa'
-  disciplinas: string[]
+import { ICursoResponse } from './ICurso'
+import { IDisciplinaResponse } from './IDisciplina'
+
+export interface IQuestionResponse {
   id: number
-  alternativas?: IAlternativas[]
+  curso: ICursoResponse
+  enunciado: string
+  numQuestao: number
+  edicao: number
+  resposta: string
+  tipoQuestao: 'Disertativa' | 'Alternativa'
+  disciplina: IDisciplinaResponse[]
+  alternativas: IAlternativas[]
+  anotacoes?: IAnotacao[]
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface IQuestionDescription {
+  curso: ICursoResponse
+  enunciado: string
+  numQuestao: number
+  edicao: number
+  disciplina: IDisciplinaResponse[]
+  id: number
+  tipoQuestao: 'Disertativa' | 'Alternativa'
+}
+
+interface IAnotacao {
+  anotacao: string
+  createdAt: string
 }
 
 interface IAlternativas {
-  id: number
   enunciado: string
   letra: string
 }

@@ -32,7 +32,7 @@ export const Modal = ({ name, confirm, setIsOpen, ...rest }: IModalProps) => {
       contentElement={() => (
         <Container>
           <h1>Confirmação</h1>
-          <p>Deseja excluir essa {name}?</p>
+          <p>Deseja excluir {name}?</p>
           <div className="boxBtn">
             <Button color="primary" className="cancel" onClick={handleClose}>
               Cancelar

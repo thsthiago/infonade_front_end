@@ -23,9 +23,19 @@ export const CreateSubject = () => {
   })
 
   const handleSearchCourse = async (search: string) => {
-    const response: any = await debounce(search)
+    const response: any = await debounce({
+      header: {
+        params: {
+          'Page-Number': 0,
+          'Page-Size': 100000
+        }
+      },
+      params: {
+        nome: search === '' ? undefined : search
+      }
+    })
 
-    const courcesFormat = response.map((curse: any) => {
+    const courcesFormat = response.results.map((curse: any) => {
       return {
         value: curse.id,
         label: curse.nome

@@ -2,17 +2,24 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 750px;
-  margin: 30px auto;
+  max-width: 700px;
   background: #ffffff;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
+  border-radius: 8px;
+  height: 100%;
+  min-height: 170px;
+  margin-top: 20px;
+
+  img {
+    display: none;
+  }
 
   a {
-    display: block;
     width: 100%;
-    height: 100%;
-    padding: 15px 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    min-height: 170px;
 
     > div:nth-of-type(1) {
       display: flex;
@@ -32,6 +39,7 @@ export const Container = styled.div`
 
     > p {
       width: 100%;
+
       text-align: justify;
       margin-top: 10px;
       color: #3d3c3c;
@@ -45,6 +53,7 @@ export const Container = styled.div`
       align-items: flex-end;
       color: var(--secondary);
       padding-top: 10px;
+      flex-grow: 1;
 
       > div {
         display: flex;

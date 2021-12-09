@@ -53,6 +53,10 @@ export const Container = styled.div`
       }
     }
 
+    & > .tooltip {
+      background: #fff;
+    }
+
     .edicoes {
       display: flex;
 
