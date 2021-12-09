@@ -14,6 +14,7 @@ export const Modal = ({ name, confirm, setIsOpen, ...rest }: IModalProps) => {
   const handleClose = () => {
     setIsOpen({
       isOpen: false,
+      name: undefined,
       fn: undefined
     })
   }

@@ -19,19 +19,15 @@ export const Question = ({
 }: IQuestionDescription) => {
   return (
     <Container>
-      <Link to="/">
+      <Link to={`/questao/${id}`}>
         <div>
           <h1>{curso.nome}</h1>
           <strong>Questão {numQuestao}</strong>
         </div>
-        <p
+        <div
           dangerouslySetInnerHTML={{
-            __html: enunciado
-              .replaceAll('\\n', '')
-              .split('')
-              .slice(1, enunciado.length - 9)
-              .join('')
-          }}></p>
+            __html: JSON.parse(enunciado)
+          }}></div>
         <div>
           <div>
             {disciplina?.map((disciplin) => (

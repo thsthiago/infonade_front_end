@@ -1,5 +1,5 @@
 import { FormHandles } from '@unform/core'
-import { useCallback, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { AiFillCloseSquare } from 'react-icons/ai'
 import { useDebaunceSelect } from 'src/hooks/useDebaunce'
 import { ICursoResponse } from 'src/interfaces/ICurso'

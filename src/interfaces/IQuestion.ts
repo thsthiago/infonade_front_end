@@ -26,7 +26,7 @@ export interface IQuestionDescription {
   tipoQuestao: 'Disertativa' | 'Alternativa'
 }
 
-interface IAnotacao {
+export interface IAnotacao {
   anotacao: string
   createdAt: string
 }

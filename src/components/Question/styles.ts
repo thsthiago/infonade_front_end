@@ -37,16 +37,41 @@ export const Container = styled.div`
       }
     }
 
-    > p {
+    > div:nth-of-type(2) {
       width: 100%;
 
       text-align: justify;
       margin-top: 10px;
       color: #3d3c3c;
       font-size: clamp(0.9rem, 2vw, 1rem);
+      /* height: 91.5px; */
+      max-height: 110px;
+      display: block;
+      display: -webkit-box;
+      max-width: 720px;
+      font-size: 20dp;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      p {
+        display: block;
+        display: -webkit-box;
+        max-width: 720px;
+        font-size: 20dp;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* > p:not(p:first-of-type) {
+        display: none;
+      } */
     }
 
-    > div:nth-of-type(2) {
+    > div:nth-of-type(3) {
       width: 100%;
       display: flex;
       justify-content: space-between;
@@ -68,6 +93,7 @@ export const Container = styled.div`
           margin-right: 5px;
           font-size: clamp(0.9rem, 2vw, 1rem);
           text-align: center;
+          height: 100%;
         }
       }
 

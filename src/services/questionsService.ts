@@ -36,12 +36,18 @@ class QuestionsService {
     return data
   }
 
-  async findOneQuestion(id: number): Promise<any> {
-    const { data } = await app.get('api/curso', {
+  async findOneQuestion(id: number): Promise<IQuestionResponse> {
+    const { data } = await app.get(`api/questao/${id}`, {
       params: {
         id
       }
     })
+    return data
+  }
+
+  async deleteQuestion(id: number): Promise<void> {
+    const { data } = await app.delete(`api/questao/${id}`)
+
     return data
   }
 }

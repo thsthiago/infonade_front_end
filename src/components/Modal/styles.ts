@@ -25,7 +25,7 @@ export const Container = styled.div`
   padding: 20px;
 
   h1 {
-    font-size: clamp(0.9rem, 2.5vw, 1.5rem);
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
   }
 
   p {
