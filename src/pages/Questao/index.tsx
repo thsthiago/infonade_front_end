@@ -31,7 +31,7 @@ export const Questao = () => {
 
   const initialData = async () => {
     try {
-      const response = await questionsService.findOneQuestion(params.id)
+      const response = await questionsService.findOneQuestion(params?.id)
 
       setAnotacoes(response.anotacoes as any)
       setData(response)

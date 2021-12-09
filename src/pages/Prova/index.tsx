@@ -16,7 +16,7 @@ type IInitialize = {
 }
 
 const Prova = () => {
-  const { params } = useRouteMatch()
+  const route: any = useRouteMatch()
   const [questions, setQuestions] = useState<IQuestionResponse[]>([])
   const [loading, setLoading] = useState(true)
   const [totalQuestoes, setTotalQuestoes] = useState<number>(0)
@@ -26,8 +26,6 @@ const Prova = () => {
     'Page-Number': 0
   })
 
-  const { edicao, id } = params
-
   async function initialize({ params, search = undefined }: IInitialize) {
     setLoading(true)
     setTimeout(async () => {
@@ -35,8 +33,8 @@ const Prova = () => {
         const response = await questionsService.getQuestions({
           header: { ...params },
           params: {
-            edicao: edicao,
-            teste: id
+            edicao: route.params?.edicao,
+            teste: route.params?.id
           }
         })
         setTotalQuestoes(response.count)
