@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSearch } from 'src/hooks/useSearch'
+import { coursesService } from 'src/services/coursesService'
 import PlanetGif from '../../assets/planet.gif'
 import { CardTemplate } from '../../components/CardTemplate'
 import { InputSearch } from './components/InputSearch'
@@ -11,46 +13,50 @@ type cursoDataProps = {
 }
 
 const Home = () => {
-  const data: cursoDataProps[] = [
-    {
-      id: 1,
-      curso: 'Análise e Desenvolvimento de Sistemas',
-      edicao: 2017
-    },
-    {
-      id: 2,
-      curso: 'Ciência da Computação',
-      edicao: 2008
-    },
-    {
-      id: 3,
-      curso: 'Gestão de TI',
-      edicao: 2007
-    },
-    {
-      id: 4,
-      curso: 'Reder e Computadores',
-      edicao: 2007
-    }
-  ]
+  const { handleSearch } = useSearch()
+  const [provas, setProvas] = useState<cursoDataProps[]>([])
+
+  const initialize = async () => {
+    try {
+      const response = await coursesService.getCourses()
+
+      const provas: cursoDataProps[] = []
+
+      response.results.map((curso) => {
+        curso.edicoes.map((edicao) => {
+          provas.push({
+            curso: curso.nome,
+            id: curso.id,
+            edicao: edicao
+          })
+        })
+      })
+
+      setProvas(provas)
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    initialize()
+  }, [])
 
   return (
     <Container>
       <section>
         <div>
           <h1>
-            Veja questões, provas e <br />
-            <span>gabaritos do Enade!</span>
+            Veja questões e provas <br />
+            <span>do Enade!</span>
           </h1>
-          <InputSearch />
+          <InputSearch onChange={(e) => handleSearch(e.target.value)} />
         </div>
 
         <img src={PlanetGif} />
       </section>
-      <section>
+      <section className="provas">
         <h1>Provas</h1>
         <div>
-          {data.map((data) => (
+          {provas?.map((data) => (
             <CardTemplate key={data.id} {...data} />
           ))}
         </div>

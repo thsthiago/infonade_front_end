@@ -6,6 +6,7 @@ import Cadastro from '../pages/Cadastro'
 import Curso from '../pages/Curso'
 import Disciplina from '../pages/Disciplina'
 import { Questao } from 'src/pages/Questao'
+import Prova from 'src/pages/Prova'
 
 const Routes = () => (
   <Switch>
@@ -15,6 +16,7 @@ const Routes = () => (
     <Route path="/cursos" component={Curso} />
     <Route path="/disciplinas" component={Disciplina} />
     <Route path="/questao/:id" component={Questao} />
+    <Route path="/prova/:id/:edicao" component={Prova} />
   </Switch>
 )
 

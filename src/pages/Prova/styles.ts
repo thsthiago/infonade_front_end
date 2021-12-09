@@ -8,22 +8,6 @@ export const Container = styled.main`
   max-width: 760px;
   margin: 0 auto;
 
-  .clearFilter {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    margin-top: 30px;
-
-    > p {
-      color: var(--secondary);
-      font-size: 15px;
-    }
-
-    .clear {
-      background: transparent;
-    }
-  }
-
   > div:first-child {
     display: flex;
     position: relative;

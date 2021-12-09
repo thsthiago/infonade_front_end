@@ -31,8 +31,8 @@ class QuestionsService {
     return data
   }
 
-  async updateCurse(questao: any): Promise<void> {
-    const { data } = await app.put('api/questao', questao)
+  async updateQuestion(questao: any): Promise<void> {
+    const { data } = await app.put(`api/questao/${questao.id}`, questao)
     return data
   }
 

@@ -4,15 +4,17 @@ type CardTemplateProps = {
   curso: string
   edicao: number
   gabarito?: boolean
+  id: number
 }
 
 export const CardTemplate = ({
   gabarito,
   curso,
-  edicao
+  edicao,
+  id
 }: CardTemplateProps) => {
   return (
-    <Container to={`/${gabarito && gabarito}/${curso}/${edicao}`}>
+    <Container to={`/prova/${id}/${edicao}`}>
       <div>
         <h1>{curso}</h1>
       </div>

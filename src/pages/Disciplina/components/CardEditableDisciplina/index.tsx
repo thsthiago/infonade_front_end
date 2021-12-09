@@ -64,8 +64,6 @@ export const CardEditableSubject: FC<ICardEditableSubject> = ({
       }
     })
 
-    console.log(courcesFormat)
-
     return courcesFormat
   }
 

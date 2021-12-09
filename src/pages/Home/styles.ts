@@ -100,8 +100,7 @@ export const Container = styled.main`
     }
   }
 
-  section:nth-child(2),
-  section:nth-child(3) {
+  .provas {
     margin-bottom: 20px;
     width: 100%;
     max-width: 1920px;
@@ -114,9 +113,9 @@ export const Container = styled.main`
 
     > div {
       width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-gap: 30px;
     }
 
     @media (min-width: 768px) {
@@ -125,7 +124,7 @@ export const Container = styled.main`
       }
 
       > div {
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
       }
     }
   }

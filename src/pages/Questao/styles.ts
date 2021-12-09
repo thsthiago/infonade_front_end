@@ -125,6 +125,10 @@ export const Container = styled.main`
         flex-direction: column;
         justify-content: space-between;
 
+        & + div {
+          margin-top: 20px;
+        }
+
         > div {
           display: flex;
           justify-content: space-between;

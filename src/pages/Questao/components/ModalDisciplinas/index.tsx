@@ -11,6 +11,7 @@ import * as Yup from 'yup'
 import getValidationErrors from 'src/utils/getValidationErrors'
 import { usePopup } from 'src/hooks/usePopup'
 import { AiFillCloseCircle } from 'react-icons/ai'
+import { questionsService } from 'src/services/questionsService'
 
 ReactModal.setAppElement('#root')
 
@@ -32,6 +33,7 @@ export const ModalDisciplinas = ({
   data,
   ...rest
 }: IModalProps) => {
+  const elementRoot = document.querySelector('#root') as Element
   const { addPopup } = usePopup()
   const formRef = useRef<FormHandles>(null)
   const [disciplinas, setDisciplinas] = useState()
@@ -40,16 +42,29 @@ export const ModalDisciplinas = ({
     setIsOpen(false)
   }
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (dataForm: any) => {
     try {
       formRef.current?.setErrors({})
-      await schema.validate(data, {
+      await schema.validate(dataForm, {
         abortEarly: false
       })
+
+      const disciplina = dataForm.disciplinas.map((item: number) => {
+        return {
+          id: item
+        }
+      })
+
+      await questionsService.updateQuestion({
+        ...data,
+        disciplina: [...data.disciplina, ...disciplina]
+      })
+
       addPopup({
         type: 'success',
         title: 'Disciplinas adicionadas com sucesso'
       })
+      elementRoot.scrollIntoView({ behavior: 'smooth' })
       refresh()
       handleClose()
     } catch (error) {

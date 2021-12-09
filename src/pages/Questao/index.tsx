@@ -1,5 +1,5 @@
 import { Container } from './styles'
-import { useRouteMatch } from 'react-router-dom'
+import { useRouteMatch, useHistory } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { IAnotacao, IQuestionResponse } from 'src/interfaces/IQuestion'
 import { questionsService } from 'src/services/questionsService'
@@ -11,12 +11,15 @@ import { usePopup } from 'src/hooks/usePopup'
 import { ModalDisciplinas } from './components/ModalDisciplinas'
 
 export const Questao = () => {
+  const history = useHistory()
   const { params }: { params: any } = useRouteMatch()
   const { addPopup } = usePopup()
   const [data, setData] = useState<IQuestionResponse>({} as IQuestionResponse)
   const [enunciado, setEnunciado] = useState<any>('')
-  const [anotacoes, setAnotacoes] = useState<IAnotacao[] | undefined>([])
+  const [anotacoes, setAnotacoes] = useState<IAnotacao[]>([])
   const [isOpenModalDisciplina, setIsOpenModalDisciplina] = useState(false)
+  const [stateAnotation, setStateAnotation] = useState('')
+  const [isDisabled, setIsDisabled] = useState(true)
   const [isOpenModal, setIsOpenModal] = useState<any>({
     isOpen: false,
     fn: null
@@ -30,7 +33,7 @@ export const Questao = () => {
     try {
       const response = await questionsService.findOneQuestion(params.id)
 
-      setAnotacoes(response.anotacoes)
+      setAnotacoes(response.anotacoes as any)
       setData(response)
       setEnunciado(JSON.parse(response.enunciado))
     } catch (error) {}
@@ -43,6 +46,7 @@ export const Questao = () => {
         type: 'success',
         title: 'Questão deletada com sucesso'
       })
+      history.push('/consulta')
     } catch (error) {
       addPopup({
         type: 'error',
@@ -50,6 +54,68 @@ export const Questao = () => {
       })
     }
   }
+
+  const handleDeleteAnotacao = async (id: number) => {
+    try {
+      const anotacao = anotacoes?.filter((anotacao, index) => index !== id)
+
+      await questionsService.updateQuestion({
+        ...data,
+        anotacoes: anotacao
+      })
+
+      setAnotacoes(anotacao)
+      addPopup({
+        type: 'success',
+        title: 'Anotação deletada com sucesso'
+      })
+    } catch (error) {
+      addPopup({
+        type: 'error',
+        title: 'Erro ao deletar disciplina'
+      })
+    }
+  }
+
+  const haldleCreateAnotacao = async (e: any) => {
+    e.preventDefault()
+    try {
+      await questionsService.updateQuestion({
+        ...data,
+        anotacoes: [
+          ...anotacoes,
+          {
+            anotacao: stateAnotation,
+            createdAt: new Date().toISOString()
+          }
+        ]
+      })
+
+      setStateAnotation('')
+
+      setAnotacoes((state) => [
+        {
+          anotacao: stateAnotation,
+          createdAt: new Date().toISOString()
+        },
+        ...state
+      ])
+
+      addPopup({
+        type: 'success',
+        title: 'Anotação criada com sucesso'
+      })
+    } catch (error) {
+      addPopup({
+        type: 'error',
+        title: 'Erro ao criar anotação'
+      })
+    }
+  }
+
+  useEffect(() => {
+    stateAnotation === '' ? setIsDisabled(true) : setIsDisabled(false)
+  }, [stateAnotation])
 
   useEffect(() => {
     moment.locale('pt-br')
@@ -106,7 +172,7 @@ export const Questao = () => {
                 onClick={() =>
                   setIsOpenModal({
                     isOpen: true,
-                    fn: () => console.log('Excluir')
+                    fn: null
                   })
                 }>
                 Deletar
@@ -115,38 +181,51 @@ export const Questao = () => {
           </div>
         </section>
         <section className="containerAnotacoes">
-          <h1>Anotações:</h1>
+          {anotacoes?.length !== 0 && (
+            <>
+              <h1>Anotações:</h1>
 
-          <div className="anotacoes">
-            {anotacoes?.map((anotacao, index) => (
-              <div className="anotacao">
-                <p>{anotacao.anotacao}</p>
-                <div>
-                  <p className="date">
-                    Criada dia{' '}
-                    {moment(new Date(anotacao.createdAt)).format('LLL')}
-                  </p>
-                  <Button
-                    color="delete"
-                    style={{ padding: '5px 20px' }}
-                    onClick={() => {
-                      setIsOpenModalAnotacao({
-                        isOpen: true,
-                        fn: () => console.log(index)
-                      })
-                    }}>
-                    Deletar
-                  </Button>
-                </div>
+              <div className="anotacoes">
+                {anotacoes?.map((anotacao, index) => (
+                  <div className="anotacao">
+                    <p>{anotacao.anotacao}</p>
+                    <div>
+                      <p className="date">
+                        Criada dia{' '}
+                        {moment(new Date(anotacao.createdAt)).format('LLL')}
+                      </p>
+                      <Button
+                        color="delete"
+                        style={{ padding: '5px 20px' }}
+                        onClick={() => {
+                          setIsOpenModalAnotacao({
+                            isOpen: true,
+                            fn: () => handleDeleteAnotacao(index)
+                          })
+                        }}>
+                        Deletar
+                      </Button>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </>
+          )}
 
           <div className="criarAnotacao">
             <h1>Crie uma anotação:</h1>
-            <form onSubmit={(e) => e.preventDefault()}>
-              <textarea placeholder="Anotação"></textarea>
-              <Button type="submit" color="primary" style={{ width: 90 }}>
+            <form onSubmit={haldleCreateAnotacao}>
+              <textarea
+                placeholder="Anotação"
+                value={stateAnotation}
+                onChange={(e: any) =>
+                  setStateAnotation(e.target.value)
+                }></textarea>
+              <Button
+                type="submit"
+                disabled={isDisabled}
+                color="primary"
+                style={{ width: 90 }}>
                 Criar
               </Button>
             </form>

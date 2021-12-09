@@ -11,6 +11,8 @@ import { IParamsRequest } from 'src/interfaces/IParams'
 import { Observer } from 'src/components/Observer'
 import { useDebaunce } from 'src/hooks/useDebaunce'
 import { NotFound } from 'src/components/NotFound'
+import { LinearProgress } from 'src/components/LinearProgress'
+import { useSearch } from 'src/hooks/useSearch'
 
 type IInitialize = {
   params?: IParamsRequest
@@ -26,11 +28,14 @@ export type IFilter = {
 }
 
 const Consulta = () => {
+  const { searchGlobal, clear } = useSearch()
   const [questions, setQuestions] = useState<IQuestionResponse[]>([])
   const debounceSearch = useDebaunce({ fn: initialize, delay: 1000 })
   const [isOpenFilter, setIsOpenFilter] = useState<boolean>(false)
   const [loading, setLoading] = useState(true)
-  const [searchQuestion, setSearchQuestion] = useState<string | undefined>('')
+  const [searchQuestion, setSearchQuestion] = useState<string | undefined>(
+    searchGlobal
+  )
   const [totalQuestoes, setTotalQuestoes] = useState<number>(0)
   const [verify, setVerify] = useState(false)
   const [filter, setFilter] = useState<IFilter>({
@@ -48,6 +53,8 @@ const Consulta = () => {
 
   const handleFilter = (params: IFilter) => {
     setFilter(filter)
+    handleToggleFilter()
+    setLoading(true)
     setTimeout(async () => {
       try {
         const response = await questionsService.getQuestions({
@@ -128,12 +135,41 @@ const Consulta = () => {
     })
   }
 
+  const handleClear = () => {
+    setFilter({
+      disciplina: undefined,
+      edicao: undefined,
+      numeroQuestao: undefined,
+      teste: undefined,
+      tipoQuestao: undefined
+    })
+
+    initialize({
+      params: {
+        'Page-Number': 0,
+        'Page-Size': 7
+      },
+      search: searchQuestion
+    })
+
+    setParamsLocal((state) => {
+      return {
+        'Page-Number': 0,
+        'Page-Size': 7
+      }
+    })
+  }
+
   useEffect(() => {
     setTimeout(() => {
       initialize({
-        params: paramsLocal
+        params: paramsLocal,
+        search: searchGlobal
       })
+      handleClear()
     }, 2000)
+
+    return () => clear()
   }, [])
 
   const handleToggleFilter = (value?: boolean): void => {
@@ -141,59 +177,70 @@ const Consulta = () => {
   }
 
   return (
-    <Container>
-      <div>
-        <Button onClick={() => handleToggleFilter()} color="secondary">
-          Filtro
-        </Button>
-        <Search
-          placeholder="Pesquise por disciplina ou curso"
-          name="questao"
-          onChange={(e) => handleSearch(e.target.value)}
-        />
-        <Filtro
-          open={isOpenFilter}
-          setIsOpen={handleToggleFilter}
-          filter={handleFilter}
-        />
-      </div>
-      {questions.length !== 0 && (
-        <p>
-          Foi encotrado {totalQuestoes} {totalQuestoes > 1 ? 'cursos' : 'curso'}
-        </p>
-      )}
-      <div>
-        {verify && totalQuestoes === 0 && !loading && (
-          <NotFound name="nenhuma questão" />
-        )}
-
-        {questions.map((question) => (
-          <Question
-            key={question.id}
-            curso={question.curso}
-            disciplina={question.disciplina}
-            edicao={question.edicao}
-            enunciado={question.enunciado}
-            id={question.id}
-            numQuestao={question.numQuestao}
-            tipoQuestao={question.tipoQuestao}
+    <>
+      {loading && <LinearProgress />}
+      <Container>
+        <div>
+          <Button onClick={() => handleToggleFilter()} color="secondary">
+            Filtro
+          </Button>
+          <Search
+            defaultValue={searchGlobal}
+            placeholder="Pesquise por disciplina"
+            name="questao"
+            onChange={(e) => handleSearch(e.target.value)}
           />
-        ))}
-        {loading && (
-          <>
-            <CardLoading />
-            <CardLoading />
-            <CardLoading />
-            <CardLoading />
-            <CardLoading />
-          </>
-        )}
-      </div>
+          <Filtro
+            open={isOpenFilter}
+            setIsOpen={handleToggleFilter}
+            filter={handleFilter}
+          />
+        </div>
+        <div className="clearFilter">
+          {questions.length !== 0 && (
+            <p>
+              Foi encotrado {totalQuestoes}{' '}
+              {totalQuestoes > 1 ? 'questões' : 'questão'}
+            </p>
+          )}
 
-      {questions.length !== 0 &&
-        questions.length !== totalQuestoes &&
-        !loading && <Observer callback={() => handlePageSize()} />}
-    </Container>
+          <button className="clear" onClick={handleClear}>
+            Limpar filtro
+          </button>
+        </div>
+        <div>
+          {verify && totalQuestoes === 0 && !loading && (
+            <NotFound name="nenhuma questão" />
+          )}
+
+          {questions.map((question) => (
+            <Question
+              key={question.id}
+              curso={question.curso}
+              disciplina={question.disciplina}
+              edicao={question.edicao}
+              enunciado={question.enunciado}
+              id={question.id}
+              numQuestao={question.numQuestao}
+              tipoQuestao={question.tipoQuestao}
+            />
+          ))}
+          {loading && (
+            <>
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+              <CardLoading />
+            </>
+          )}
+        </div>
+
+        {questions.length !== 0 &&
+          questions.length !== totalQuestoes &&
+          !loading && <Observer callback={() => handlePageSize()} />}
+      </Container>
+    </>
   )
 }
 

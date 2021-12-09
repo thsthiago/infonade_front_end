@@ -41,27 +41,24 @@ const Curso = () => {
   async function initialize({ params, search = undefined }: IInitialize) {
     setSearchCource(search)
     setLoading(true)
-    setTimeout(async () => {
-      try {
-        const response = await coursesService.getCourses({
-          header: { ...params },
-          params: {
-            nome: search === '' ? undefined : search
-          }
-        })
-        setTotalCursos(response.count)
-        setCources(response.results)
-      } catch (err) {
-      } finally {
-        setVerify(true)
-        setLoading(false)
-      }
-    }, 1000)
+
+    try {
+      const response = await coursesService.getCourses({
+        header: { ...params },
+        params: {
+          nome: search === '' ? undefined : search
+        }
+      })
+      setTotalCursos(response.count)
+      setCources(response.results)
+    } catch (err) {
+    } finally {
+      setVerify(true)
+      setLoading(false)
+    }
   }
 
   const handleSearch = (e: string) => {
-    console.log(e)
-
     setParamsLocal({
       'Page-Number': 0,
       'Page-Size': 7
