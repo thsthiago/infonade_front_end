@@ -8,7 +8,7 @@ export interface IQuestionResponse {
   numQuestao: number
   edicao: number
   resposta: string
-  tipoQuestao: 'Disertativa' | 'Alternativa'
+  tipoQuestao: 'Dissertativa' | 'Alternativa'
   disciplina: IDisciplinaResponse[]
   alternativas: IAlternativas[]
   anotacoes?: IAnotacao[]

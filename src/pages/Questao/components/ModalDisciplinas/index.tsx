@@ -12,6 +12,7 @@ import getValidationErrors from 'src/utils/getValidationErrors'
 import { usePopup } from 'src/hooks/usePopup'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { questionsService } from 'src/services/questionsService'
+import { IDisciplinaResponse } from 'src/interfaces/IDisciplina'
 
 ReactModal.setAppElement('#root')
 
@@ -86,6 +87,11 @@ export const ModalDisciplinas = ({
       const response = await subjectsService.getSubjects({
         params: { curso: data.curso.id }
       })
+
+      const teste: IDisciplinaResponse[] = [
+        ...response.results,
+        ...data.disciplina
+      ]
 
       const subjectsFormt: any = response.results.map((subject: any) => {
         return {

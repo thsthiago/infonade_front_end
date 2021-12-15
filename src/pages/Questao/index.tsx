@@ -28,10 +28,15 @@ export const Questao = () => {
     isOpen: false,
     fn: null
   })
+  const [resposta, setResposta] = useState([] as any)
 
   const initialData = async () => {
     try {
       const response = await questionsService.findOneQuestion(params?.id)
+
+      if (response.tipoQuestao === 'Dissertativa') {
+        setResposta(JSON.parse(response.resposta))
+      }
 
       setAnotacoes(response.anotacoes as any)
       setData(response)
@@ -147,19 +152,35 @@ export const Questao = () => {
                 __html: enunciado
               }}></div>
 
-            <div className="alternativas">
-              {data?.alternativas?.map((alternativa) => (
-                <div className="alternativa">
-                  <strong
-                    className={
-                      data.resposta === alternativa.letra ? 'select' : undefined
-                    }>
-                    {alternativa?.letra}
-                  </strong>
-                  <p>{alternativa?.enunciado}</p>
-                </div>
-              ))}
-            </div>
+            {data.tipoQuestao === 'Dissertativa' ? (
+              <div className="respostas">
+                <p className="titleResposta">Resposta esperada:</p>
+
+                {resposta.map((item: any, index: any) => (
+                  <div key={index} className="resposta">
+                    <strong className="select">{item?.letra}</strong>
+                    <p>{item?.enunciado}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="alternativas">
+                {data?.alternativas?.map((alternativa, index) => (
+                  <div key={index} className="alternativa">
+                    <strong
+                      className={
+                        data.resposta === alternativa.letra
+                          ? 'select'
+                          : undefined
+                      }>
+                      {alternativa?.letra}
+                    </strong>
+                    <p>{alternativa?.enunciado}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
             <div className="boxBtns">
               <Button
                 color="secondary"

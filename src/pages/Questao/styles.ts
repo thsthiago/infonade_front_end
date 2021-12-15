@@ -93,6 +93,42 @@ export const Container = styled.main`
       }
     }
 
+    .respostas {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 30px;
+
+      .titleResposta {
+        margin: 10px 0 5px;
+        margin-right: 5px;
+        font-size: clamp(0.9rem, 2vw, 1.1rem);
+      }
+
+      .resposta {
+        display: flex;
+        gap: 10px;
+
+        strong {
+          border-radius: 11.5px;
+          height: 23px;
+          width: 23px;
+          padding: 3px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--secondary);
+          border: 1px solid var(--secondary);
+          font-weight: 500;
+
+          &.select {
+            background-color: var(--secondary);
+            color: var(--text);
+          }
+        }
+      }
+    }
+
     .boxBtns {
       display: flex;
       justify-content: flex-end;
